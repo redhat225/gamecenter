@@ -13,12 +13,14 @@
     "angular": "^1.6.8",
     "angular-chart.js": "^1.1.1",
     "angular-colorbox": "^1.1.5",
+    "angular-fullcalendar": "^1.0.1",
     "angular-loading-bar": "^0.9.0",
     "angular-ui-router": "^1.0.3",
     "angular-ui-tinymce": "0.0.19",
     "bulma": "^0.6.1",
     "hover.css": "^2.2.1",
     "howler": "^2.0.9",
+    "moment": "^2.22.0",
     "ng-file-upload": "^12.2.13",
     "toastr": "^2.1.4"
   }

@@ -538,31 +538,34 @@ ROCKS </div>
             style="z-index: 26; white-space: nowrap; font-size: 40px; line-height: 22px; font-weight: 400; color: #ffffff; letter-spacing: 0px;font-family:Open Sans;"><i class="fa-icon-align-justify"></i> </div>
 
 		<!-- LAYER NR. 23 -->
-		<div class="tp-caption rev-btn  rs-parallaxlevel-5" 
-			 id="slide-16-layer-48" 
-			 data-x="['left','left','left','left']" data-hoffset="['989','810','836','836']" 
-			 data-y="['top','top','top','top']" data-voffset="['31','23','12','12']" 
-						data-fontsize="['20','20','17','17']"
-			data-fontweight="['900','900','500','500']"
-			data-color="['rgb(255,255,255)','rgba(255,255,255,1)','rgba(255,255,255,1)','rgba(255,255,255,1)']"
-			data-width="none"
-			data-height="none"
-			data-whitespace="nowrap"
-			data-visibility="['on','on','off','off']"
- 
-            data-type="button" 
-			data-actions='[{"event":"click","action":"simplelink","target":"_self","url":"\/admins\/login","delay":""}]'
-			data-responsive_offset="on" 
+		<a href="/admins/login">
+			<div class="tp-caption rev-btn  rs-parallaxlevel-5" 
+						 id="slide-16-layer-48" 
+						 data-x="['left','left','left','left']" data-hoffset="['989','810','836','836']" 
+						 data-y="['top','top','top','top']" data-voffset="['31','23','12','12']" 
+									data-fontsize="['20','20','17','17']"
+						data-fontweight="['900','900','500','500']"
+						data-color="['rgb(255,255,255)','rgba(255,255,255,1)','rgba(255,255,255,1)','rgba(255,255,255,1)']"
+						data-width="none"
+						data-height="none"
+						data-whitespace="nowrap"
+						data-visibility="['on','on','off','off']"
+			 
+			            data-type="button" 
+						data-actions='[{"event":"click","action":"simplelink","target":"_self","url":"\/admins\/login","delay":""}]'
+						data-responsive_offset="on" 
 
-            data-frames='[{"delay":10,"speed":1500,"frame":"0","from":"y:bottom;rZ:90deg;sX:2;sY:2;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"},{"frame":"hover","speed":"0","ease":"Linear.easeNone","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgb(255,255,255);bg:rgb(218,44,116);"}]'
-            data-textAlign="['inherit','inherit','inherit','inherit']"
-            data-paddingtop="[12,12,12,12]"
-            data-paddingright="[35,35,35,35]"
-            data-paddingbottom="[12,12,12,12]"
-            data-paddingleft="[35,35,35,35]"
+			            data-frames='[{"delay":10,"speed":1500,"frame":"0","from":"y:bottom;rZ:90deg;sX:2;sY:2;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"},{"frame":"hover","speed":"0","ease":"Linear.easeNone","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgb(255,255,255);bg:rgb(218,44,116);"}]'
+			            data-textAlign="['inherit','inherit','inherit','inherit']"
+			            data-paddingtop="[12,12,12,12]"
+			            data-paddingright="[35,35,35,35]"
+			            data-paddingbottom="[12,12,12,12]"
+			            data-paddingleft="[35,35,35,35]"
 
-            style="z-index: 27; white-space: nowrap; font-size: 20px; line-height: 17px; font-weight: 900; color: #ffffff; letter-spacing: px;font-family:Lato;background-color:rgba(248,88,0,0);border-color:rgb(218,44,116);border-style:solid;border-width:2px 2px 2px 2px;outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer;">CONNEXION
- </div>
+			            style="z-index: 27; white-space: nowrap; font-size: 20px; line-height: 17px; font-weight: 900; color: #ffffff; letter-spacing: px;font-family:Lato;background-color:rgba(248,88,0,0);border-color:rgb(218,44,116);border-style:solid;border-width:2px 2px 2px 2px;outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer;">CONNEXION
+			 </div>
+		</a>
+
 
 		<!-- LAYER NR. 24 -->
 		<a href="#principe" class="anchor_tour_item">

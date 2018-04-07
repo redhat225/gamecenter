@@ -37,27 +37,27 @@ class AdminsController extends AppController
 
     public function initialize(){
         parent::initialize();
-        // $this->Auth->allow(['tour']);
-        // if($this->request->session()->read('Auth')){
-        //     if($this->request->is('ajax')){
+        $this->Auth->allow(['login','logout','forgot','tour']);
+        if($this->request->session()->read('Auth')){
+            if($this->request->is('ajax')){
 
-        //     }else
-        //     {
-        //         if($this->request->params['_matchedRoute']!=="/admins/logout"){
+            }else
+            {
+                if($this->request->params['_matchedRoute']!=="/admins/logout"){
 
-        //              $this->request->params['action'] = 'index';
-        //              $this->request->params['controller'] = 'Admins';
-        //         }
-        //     }
-        // }else{
-        //     // if($this->request->is('get')){
-        //     //     if(!$this->Cookie->check('WelcomePca')){
-        //     //         $this->Cookie->configKey('WelcomePca','expires','1 month');
-        //     //         $this->Cookie->write('WelcomePca','yes Man!!!');
-        //     //         return $this->redirect(['controller'=>'Admins','action'=>'welcome']);
-        //     //     }
-        //     // }
-        // }
+                     $this->request->params['action'] = 'index';
+                     $this->request->params['controller'] = 'Admins';
+                }
+            }
+        }else{
+            if($this->request->is('get')){
+                if(!$this->Cookie->check('WelcomeTour')){
+                    $this->Cookie->configKey('WelcomeTour','expires','1 month');
+                    $this->Cookie->write('WelcomeTour','yes Man!!!');
+                    return $this->redirect(['controller'=>'Admins','action'=>'tour']);
+                }
+            }
+        }
     }
 
     public function beforeFilter(Event $event){
@@ -73,7 +73,46 @@ class AdminsController extends AppController
     }
 
     public function login(){
+        if($this->request->is('ajax')){
+            if($this->request->is('post')){
+                $data = $this->request->data;
+                $user = $this->Auth->identify($data);
+                if($user){
+                    $jwt_data = $user;
+                    $user = $this->Auth->setUser($user);
+                    //generate jwt
+                    $signer = new Sha256();
+                    $key = Security::salt();
+                    $current_time = time();
 
+                    $jwt = (new Builder())->setIssuer($this->request->env('SERVER_NAME'))->setAudience($this->request->env('SERVER_NAME'))->setIssuedAt(time())
+                        ->setExpiration($current_time + 3600)
+                        ->set('data',$jwt_data)
+                        ->sign($signer, $key)
+                        ->getToken();
+                    $jwt_generated = $jwt->getPayload();
+                    $this->RequestHandler->renderAs($this, 'json');
+                    $this->set(compact('jwt_generated'));
+                    $this->set('_serialize',['jwt_generated']);
+                }else
+                  throw new Exception\ForbiddenException(__('forbidden'));
+            }
+        }else
+        {
+            $this->viewBuilder()->layout('login');
+        }
+    }
+
+    public function home(){
+
+    }
+
+    public function dashboard(){
+    }
+
+    public function logout(){
+        $this->Cookie->delete('WelcomeTour');
+        return $this->redirect($this->Auth->logout());
     }
 
 }

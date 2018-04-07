@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+	<head>
+	
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+		<title>FlipTimer - jQuery Countdown Timer</title>
+		
+		<link rel="shortcut icon" href="images/preview/favicon.ico" />
+			
+		<!-- Google fonts -->
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'>
+		
+		<!-- Font awesome -->
+		<link rel="stylesheet" type="text/css" href="css/fontawesome/css/font-awesome.min.css" />
+		
+		<!-- jQuery -->
+		<script type="text/javascript" src="js/jquery.js"></script>
+		
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="js/bootstrap/css/bootstrap.min.css" />
+    	<script type="text/javascript" src="js/bootstrap/js/bootstrap.min.js"></script>
+		
+		<!-- Preview (Remove) -->
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script type="text/javascript" src="js/preview.js"></script>
+		
+		<!--[if lt IE 9]>
+			<script src="js/html5shiv.js"></script>
+		<![endif]-->
+		
+		<!-- Flip - Countdown Timer CSS settings -->
+		<link rel="stylesheet" type="text/css" href="fliptimer/fliptimer.css" />
+		
+		<!-- Flip - Countdown Timer JS -->
+		<script type="text/javascript" src="fliptimer/jquery.fliptimer.js"></script>
+		<script>
+			var api;
+			
+			$(document).ready(function() {
+				
+				//Countup timer
+				$(".countup").flipTimer({
+					date:"2017/12/20 00:00:00",
+					timeZone:-5,	//Time zone of New York
+					past:true,
+					borderRadius:2,
+					bgColor:"#fff",
+					dividerColor:"#666",
+					digitColor:"#333",
+					textColor:"#fff",
+					boxShadow:false
+				});
+				
+				//Countdown timer
+				api = $(".countdown").flipTimer({
+					date:"2050/12/25 00:00:00"
+				});
+				
+				//Multicolor timer
+				$(".multicolor").flipTimer({
+					date:"2050/05/01 12:30:00",
+					bgColor:"#a60000",
+					multiColor:true
+				});
+				
+			});
+		</script>
+	
+	</head>
+
+	<body>
+	
+		<!-- Header -->
+		<header>
+			<div class="header-inner wrapper clearfix">
+			
+				<!-- Logo -->
+				<div class="logo"> 
+					<img src="images/preview/logo.png" alt="FlipTimer" />
+				</div>
+				
+				<h2>jQuery Countdown Timer</h2>
+				
+				<a href="https://codecanyon.net/item/fliptimer-jquery-countdown-timer/21154062?ref=AthenaStudio" class="btn-buy">Buy Now</a>
+				
+			</div>
+		</header>
+		
+		<!-- Page body -->
+		<div class="page-body">
+		
+			<section>	
+			
+				<div class="section-inner">
+					<div class="wrapper clearfix">
+				
+						<h3>Countdown Timer</h3>
+					
+						<div class="row">
+							<div class="col-md-12">
+					
+								<!--
+								###################################################################
+									- Flip - Countdown Timer / Start -
+								###################################################################
+								-->
+								<div class="countdown"></div>
+								<!--
+								#################################################################
+									- Flip - Countdown Timer / End -
+								#################################################################
+								-->	
+						
+							</div>
+						</div>
+						
+						<!-- Color schemes -->
+						<div id="colors">
+							<a class="black" 	title="Black" 	data-bg-color="#333"	data-divider-color="#000"		data-digit-color="#fff"></a>
+							<a class="grey" 	title="Grey" 	data-bg-color="#ddd"	data-divider-color="#999"		data-digit-color="#333"></a>
+							<a class="orange" 	title="Orange" 	data-bg-color="#ff5744"	data-divider-color="#a60000"	data-digit-color="#fff"></a>
+							<a class="green" 	title="Green" 	data-bg-color="#03a678"	data-divider-color="#00684b"	data-digit-color="#fff"></a>
+							<a class="blue" 	title="Blue" 	data-bg-color="#1fb4da"	data-divider-color="#005b72"	data-digit-color="#00495c"></a>
+							<a class="purple" 	title="Purple" 	data-bg-color="#6f005e"	data-divider-color="#1d0019"	data-digit-color="#fff"></a>
+						</div>
+						
+					</div>
+				</div>
+								
+			</section>
+			
+			<section class="parallax">	
+			
+				<div class="section-inner">
+					<div class="wrapper clearfix">
+				
+						<h3>Countup Timer</h3>
+					
+						<div class="row">
+							<div class="col-md-12">
+					
+								<!--
+								###################################################################
+									- Flip - Countdown Timer / Start -
+								###################################################################
+								-->
+								<div class="countup"></div>
+								<!--
+								#################################################################
+									- Flip - Countdown Timer / End -
+								#################################################################
+								-->	
+						
+							</div>
+						</div>
+						
+					</div>
+				</div>
+								
+			</section>
+			
+			<section class="grey">	
+			
+				<div class="section-inner">
+					<div class="wrapper clearfix">
+				
+						<h3>Multicolor Timer</h3>
+					
+						<div class="row">
+							<div class="col-md-12">
+					
+								<!--
+								###################################################################
+									- Flip - Countdown Timer / Start -
+								###################################################################
+								-->
+								<div class="multicolor"></div>
+								<!--
+								#################################################################
+									- Flip - Countdown Timer / End -
+								#################################################################
+								-->	
+						
+							</div>
+						</div>
+						
+					</div>
+				</div>
+								
+			</section>
+		
+			<!-- Footer -->
+			<footer>
+			
+				<div class="section-inner">					
+					<div class="wrapper clearfix">
+                
+						<span class="copyright">Copyright © <a href="https://themeforest.net/user/athenastudio" target="_blank">AthenaStudio</a><br>
+							<span class="social">
+								<a href="https://twitter.com/athenastudio87" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
+								<a href="http://athenastudio87.deviantart.com/" title="DeviantArt" target="_blank"><i class="fa fa-deviantart"></i></a>
+								<a href="https://www.behance.net/athenastudio" title="Behance" target="_blank"><i class="fa fa-behance"></i></a>
+								<a href="https://dribbble.com/AthenaStudio" title="Dribbble" target="_blank"><i class="fa fa-dribbble"></i></a>					
+								<a href="https://themeforest.net/feeds/users/AthenaStudio.atom" title="RSS" target="_blank"><i class="fa fa-rss"></i></a>
+							</span>
+						</span>
+						
+					</div>				
+				</div>
+				
+			</footer>
+			
+		</div>
+
+	</body>
+	
+</html>
