@@ -19,7 +19,7 @@ environments:
         host: localhost
         name: gamecenter
         user: gamecenter
-        pass: 'gamecenter'
+        pass: 'Game000@@29'
         port: 3306
         charset: utf8
 
