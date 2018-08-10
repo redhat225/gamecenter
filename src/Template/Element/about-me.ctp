@@ -23,7 +23,7 @@
                <i class="fab fa-github"></i>
               </span>
               <span>GitHub</span>
-            <a href="https://github.com/redhat225" target="_blank" class="button is-mar-lft-20">
+            <a href="https://www.patreon.com/blackcat225" target="_blank" class="button is-mar-lft-20">
               <span class="icon">
                 <i class="fa fa-coffee"></i>
               </span>

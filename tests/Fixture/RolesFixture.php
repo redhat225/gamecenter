@@ -33,17 +33,21 @@ class RolesFixture extends TestFixture
     // @codingStandardsIgnoreEnd
 
     /**
-     * Records
+     * Init method
      *
-     * @var array
+     * @return void
      */
-    public $records = [
-        [
-            'id' => 'de7f9116-bff2-4e71-9df8-87359e8414f8',
-            'role_denomination' => 'Lorem ipsum dolor sit amet',
-            'created' => 1523105851,
-            'created_by' => 'd818649a-49d9-468a-b256-b4154c6626b5',
-            'modified' => 1523105851
-        ],
-    ];
+    public function init()
+    {
+        $this->records = [
+            [
+                'id' => '30a0eb8e-d197-4083-94eb-8547ac82d531',
+                'role_denomination' => 'Lorem ipsum dolor sit amet',
+                'created' => 1532872100,
+                'created_by' => 'de94ac7e-a753-493e-8fff-65f182787627',
+                'modified' => 1532872100
+            ],
+        ];
+        parent::init();
+    }
 }

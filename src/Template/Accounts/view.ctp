@@ -17,7 +17,7 @@
 		<div class="column">
 				<div class="field has-addons is-expanded">
 					<div class="control is-expanded">
-						<input type="text" class="input" ng-model="filter_keys">
+						<input type="text" class="input" ng-model="filter_users">
 					</div>
 					<div class="control">
 						<a class="button is-intercoton-green is-static">
@@ -33,7 +33,7 @@
 
 		</div>
 		<div class="column">
-				<button class="button is-oci" ui-sref="admins.accounts.create">
+				<button class="button is-gamecenter-pink" ui-sref="admins.accounts.create">
 					<span class="icon">
 						<i class="fa fa-plus"></i>
 					</span>
@@ -85,31 +85,28 @@
 							<th class="has-text-white">Role</th>
 							<th class="has-text-white">Création</th>
 							<th class="has-text-white">Dernière Modification</th>
-							<th class="has-text-white">Informations</th>
+							<th class="has-text-white">Username</th>
+							<th class="has-text-white">Contact</th>
+							<th class="has-text-white">Email</th>
 							<th class="has-text-white">Action</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody ng-repeat="user in users | filter:filter_users">
 						<tr class="">
 							<td>
 								<figure>
 									<img width="100px" ng-src="/img/assets/admins/photo/{{user.user_photo}}" alt="">
 								</figure>
 							</td>
-							<td>RIEHL Emmanuel</td>
-							<td>Caissier</td>
-							<td>Caissier</td>
-							<td>15-01-2018 08H15</td>
-							<td>15-01-2018 08H15</td>
+							<td>{{user.user_fullname}}</td>
+							<td>{{user.user_job}}</td>
+							<td>{{user.user_accounts[0].role.role_denomination}}</td>
+							<td>{{user.user_accounts[0].created | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+							<td>{{user.user_accounts[0].modified | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+							<td>{{user.user_accounts[0].username}}</td>
+							<td>{{user.user_contact}}</td>
 							<td>
-								<button class="button is-oci is-outlined" ng-click='openViewModal(user)'>
-									<span class="icon">
-										<i class="fas fa-info"></i>
-									</span>
-									<span>
-										voir les infos
-									</span>
-								</button>
+								{{user.user_email}}
 							</td>
 				  			<td>
 									   <div class="dropdown is-hoverable is-right">
@@ -125,14 +122,14 @@
 													 <a ui-sref="admins.accounts.edit({user_id:user.id})" class="dropdown-item">
 											            	Modifier utilisateur
 													 </a>
-													 <a class="dropdown-item" ng-click="lock_user_account_trigger(user.user_accounts[0].id, user.user_accounts[0])" >
+													 <a class="dropdown-item" ng-click="lock_user_account_trigger(user.user_accounts[0].id,user.user_accounts[0])" ng-if="user.user_accounts[0].user_is_active==true">
 											            	Verrouiller utilisateur
 													 </a>
 													 </a>
-													 <a ng-click="lock_user_account_trigger(user.user_accounts[0].id, user.user_accounts[0])" ng-if="user.user_accounts[0].user_account_is_active==false" class="dropdown-item">
+													 <a ng-click="unlock_user_account_trigger(user.user_accounts[0].id,user.user_accounts[0])" ng-if="user.user_accounts[0].user_is_active==false" class="dropdown-item">
 											            	Déverrouiller utilisateur
 													 </a>
-													 <a ng-click="reinit_passsword(user.user_accounts[0].id)"  class="dropdown-item">
+													 <a ng-click="reset_password(user.user_accounts[0].id)"  class="dropdown-item">
 											            	Réinitialiser mot de passe
 													 </a>
 											    </div>

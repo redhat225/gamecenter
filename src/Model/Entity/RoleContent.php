@@ -7,9 +7,9 @@ use Cake\ORM\Entity;
  * RoleContent Entity
  *
  * @property string $id
- * @property string $content_controller
+ * @property string $content_alias
  * @property string $content_action
- * @property string $role_id
+ * @property string $content_controller
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  *
@@ -28,9 +28,9 @@ class RoleContent extends Entity
      * @var array
      */
     protected $_accessible = [
-        'content_controller' => true,
+        'content_alias' => true,
         'content_action' => true,
-        'role_id' => true,
+        'content_controller' => true,
         'created' => true,
         'modified' => true,
         'role' => true

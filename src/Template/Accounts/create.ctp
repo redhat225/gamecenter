@@ -170,7 +170,7 @@
 				<div class="field-body">
 					<div class="field">
 						<div class="control has-icons-left has-icons-right">
-							<input name="account_username" class="input" type="text" ng-model="user.account.user_account_username" required ng-pattern='/^[^@&()"!_$*€£`+=\/;?#]+$/' placeholder="ex: Remmanuel225">
+							<input name="account_username" class="input" type="text" ng-model="user.account.username" required ng-pattern='/^[^@&()"!_$*€£`+=\/;?#]+$/' placeholder="ex: Remmanuel225">
 							<span class="icon is-small is-left">
 								<i class="fa fa-user"></i>
 							</span>
@@ -198,58 +198,6 @@
 								<i class="fas fa-road"></i>
 							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-			<!-- Avatar -->
-				<div class="field is-horizontal">
-					<div class="field-label">
-						<label for="" class="label">Avatar</label>
-					</div>
-					<div class="field-body">
-							<div class="field">
-								<div ng-if="!user.account.user_account_avatar_candidate" class="button is-mar-bot-30" ngf-select ng-model="user.account.user_account_avatar_candidate" name="user_account_avatar_candidate" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="3MB" ng-min-height="200" ngf-min-width="200">Sélectionner</div>
-
-								<div class="image-preview">
-									<figure class="image" style="max-width: 200px;">
-										<img ngf-thumbnail="user.account.user_account_avatar_candidate || '/img/assets/forms/image_upload_drag_area.png'">
-									</figure>
-
-								</div>
-							
-								<div ng-if="user.account.user_account_avatar_candidate" class="button is-vne-orange is-outlined is-mar-top-30" ng-click="user.account.user_account_avatar_candidate=''">
-									Effacer
-								</div>
-								<p class="help" ng-if="createuserFormaccount.user_account_avatar_candidate.$invalid">
-									l'image d'avatar n'est pas obligatoire, représente une image (jpeg, jpg, bitmap, png) et la taille ne doit pas être supérieure à 3MB 
-								</p>
-							</div>
-					  </div> 
-				</div>
-	
-			<!-- Password -->
-			<div class="field is-horizontal">
-				<div class="field-label">
-					<label for="" class="label">Mot de Passe</label>
-				</div>
-				<div class="field-body">
-					<div class="field">
-						<div class="control has-icons-left has-icons-right">
-							<input ng-maxlength="20" class="input" name="user_account_password" type="password" ng-model="user.account.user_account_password" required ng-pattern='/(?=.*[A-Z]+.*)(?=.*[0-9]+.*)(?=.*[a-z]+.*)(?=.*[!@#$&*]+.*)/'>
-							<span class="icon is-small is-left">
-								<i class="fa fa-lock"></i>
-							</span>
-							<span class="icon is-small is-right" ng-if="createuserForm.user_account_password.$valid">
-								<i class="fa fa-check has-text-success"></i>
-							</span>
-							<p class="help" ng-if="createuserForm.user_account_password.$invalid">
-								Il est impératif de définir un mot de passe contenant au moins une lettre majuscule, un/plusieurs nombres,un caractère spécial, ainsi qu'une/plusieurs lettres minuscules.
-							</p>
-							<p class="help" ng-if="createuserForm.user_account_password.$error.maxlength">
-								Le mot de passe ne doit pas dépasser 20 caractères
-							</p>
-						</div>
-
 					</div>
 				</div>
 			</div>

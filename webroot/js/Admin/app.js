@@ -26,26 +26,42 @@ angular.module('game',['game_controllers','game_services','game_directives','ui.
 			url:'dashboard',
 			templateUrl:'/admins/dashboard',
 			controller: 'DashController as dashctrl'
+		}).state('admins.options',{
+			url:'options',
+			templateUrl:'/admins/options',
+			controller: 'OptionsController as optionsctrl'
 		}).state('admins.gamers',{
 			url:'gamers',
 			abstract:true,
 			templateUrl:'/gamers'
 		}).state('admins.gamers.view',{
-			url:'/view',
-			controller:'GamersViewController as gamersviewctrl',
+			url:'/view?page',
+			controller:'AdminsController as adminscontroller',
 			templateUrl:'/gamers/view'
 		}).state('admins.gamers.create',{
 			url:'/create',
 			controller:'GamersCreateController as gamerscreatectrl',
 			templateUrl:'/gamers/create'
+		}).state('admins.gamers.edit',{
+			url:'/edit/:gamer_id',
+			controller:'GamersEditController as gamerseditctrl',
+			templateUrl:'/gamers/edit'
+		}).state('admins.gamers.raffles',{
+			url:'/raffles',
+			controller:'GamerRafflesController as gamerrafflesctrl',
+			templateUrl:'/gamers/raffles'
 		}).state('admins.accounts',{
 			url:'accounts',
 			abstract:true,
 			templateUrl:'/accounts'
 		}).state('admins.accounts.view',{
-			url:'/view',
+			url:'/view?page',
 			controller:'AccountsViewController as accountsviewctrl',
 			templateUrl:'/accounts/view'
+		}).state('admins.accounts.edit',{
+			url:'/edit/:user_id',
+			controller:'AccountsEditController as accountseditctrl',
+			templateUrl:'/accounts/edit'
 		}).state('admins.accounts.create',{
 			url:'/create',
 			controller:'AccountsCreateController as accountscreatectrl',
@@ -55,10 +71,18 @@ angular.module('game',['game_controllers','game_services','game_directives','ui.
 			abstract:true,
 			templateUrl:'/crossings'
 		}).state('admins.crossings.view',{
-			url:'/view',
+			url:'/view?page',
 			controller:'CrossingsViewController as crossingsviewctrl',
 			templateUrl:'/crossings/view'
+		}).state('admins.profiles',{
+			url:'profiles',
+			abstract:true,
+			templateUrl:'/profiles'
+		}).state('admins.profiles.edit',{
+			url:'/edit',
+			controller:'ProfilesEditController as profileseditctrl',
+			templateUrl:'/profiles/edit'
 		})
-
 		$urlRouterProvider.otherwise('/dashboard');
 	}])
+

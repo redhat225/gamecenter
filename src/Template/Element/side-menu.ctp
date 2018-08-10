@@ -38,30 +38,57 @@
 		    Accueil
 		  </p>
 		  <ul class="menu-list">
-		    <li class="is-mar-top-5"><a ui-sref="admins.dashboard" ui-sref-active="active"><span class="icon"><i class="fab fa-dyalog"></i></span> Dashboard</a></li>
-		    <li class="is-mar-top-5"><a ui-sref="admins.crossings.view" ui-sref-active="active"><span class="icon"><i class="fab fa-patreon"></i></span>Passages</a></li>
+		    <li class="is-mar-top-5"><a ui-sref="admins.dashboard" ui-sref-active="active"><span class="icon"><i class="fab fa-dyalog"></i></span>&nbsp;Dashboard</a></li>
+		    <li>
+		      <a class="menu-list-include-wrapper">
+		      	<span class="icon">
+		      		<i class="fas fa-retweet"></i>
+		      	</span>
+		       Passages
+		   	  </a>
+		      <ul class="is-display-none">
+		        <li><a ui-sref="admins.crossings.view({page:1})" ui-sref-active='is-active'>Vue globale</a></li>
+		      </ul>
+		    </li>
 		  </ul>
-		  <p class="menu-label">
+		  <p class="menu-label has-text-gamecenter-pink">
 		    Administration
 		  </p>
 		  <ul class="menu-list">
 		    <li>
-		      <a class="menu-list-include-wrapper">Gérer Gamers</a>
+		      <a class="menu-list-include-wrapper">
+		        <span class="icon">
+		        	<i class="fas fa-gamepad"></i>
+		        </span> Gérer Gamers
+		      </a>
 		      <ul class="is-display-none">
-		        <li><a ui-sref="admins.gamers.view">Vue globale</a></li>
-		        <li><a ui-sref="admins.gamers.create">Ajouter</a></li>
-		        <li><a ng-click="openModalViewUsers()">Modifier</a></li>
+		        <li><a ui-sref="admins.gamers.view({page:1})" ui-sref-active="is-active">Vue globale abonnés</a></li>
+		        <li><a ui-sref="admins.gamers.create" ui-sref-active="is-active">Ajouter abonné</a></li>
+		        <li><a ng-click="openModalViewGamers()">Modifier abonné</a></li>
+		        <!-- Update Gamer -->
+		        <?= $this->element('Gamers/modal_view_gamers') ?>
+		        <li><a ui-sref="admins.gamers.raffles" ui-sref-active="is-active">
+		         Tombola</a></li>
 		      </ul>
 		    </li>
 		    <li>
-		      <a class="menu-list-include-wrapper">Gérer Utilisateurs</a>
+		      <a class="menu-list-include-wrapper"><span class="icon">
+		      	<i class="fas fa-users"></i>
+		      </span> Gérer Utilisateurs</a>
 		      <ul class="is-display-none">
-		        <li><a ui-sref="admins.accounts.view">Vue globale</a></li>
-		        <li><a ui-sref="admins.accounts.create">Ajouter</a></li>
+		        <li><a ui-sref="admins.accounts.view({page:1})" ui-sref-active="is-active">Vue globale</a></li>
+		        <li><a ui-sref="admins.accounts.create" ui-sref-active="is-active">Ajouter</a></li>
+		        <!-- Update User -->
+		        <?= $this->element('Admins/modal_view_users') ?>
 		        <li><a ng-click="openModalViewUsers()">Modifier</a></li>
 		      </ul>
 		    </li>
-		    <li class="is-mar-top-5"><a class="remmanuel-info">A propos</a></li>
+		    <li class="is-mar-top-5"><a ui-sref="admins.options" class=""><span class="icon">
+		    	<i class="fas fa-sliders-h"></i>
+		    </span> Options</a></li>
+		    <li class="is-mar-top-5"><a class="remmanuel-info"><span class="icon">
+		    	<i class="fas fa-question-circle"></i>
+		    </span>&nbsp;A propos</a></li>
 		  </ul>
 		</aside>
 	</div>
@@ -77,7 +104,6 @@
 			  $(this).next('ul').slideDown();
 			else
 			  $(this).next('ul').slideUp();
-
 		});
 	});
 </script>

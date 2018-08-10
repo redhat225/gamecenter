@@ -8,14 +8,15 @@
 				<span class="has-text-intercoton-green has-text-weight-semibold is-pad-lft-20">Dashboard</span> 	
 			</div>
 		</div>
-	</div>
-	<div class="level">
-		<div class="level-left">
+		<div class="level-right">
 			<div class="level-item">
-				<span class="icon">
-					<i class="far fa-calendar-check"></i>
-				</span>
-				<span class="has-text-intercoton-green has-text-weight-semibold is-pad-lft-20">Aujourd'hui</span> 	
+				<a href="" class="button is-gamecenter-pink is-outlined" ng-click="refreshStats()">
+					<span class="icon">
+								<i class="fas fa-sync-alt is-medium"></i>
+					</span>
+					&nbsp;
+					Actualiser
+				</a> 	
 			</div>
 		</div>
 	</div>
@@ -26,84 +27,64 @@
 					<div class="media">
 						<div class="media-left">
 							<span class="icon">
-								<i class="fab fa-bitcoin"></i>
+								<i class="fas fa-retweet is-medium"></i>
 							</span>
 							 <span class=""></span>
 						</div>
 						<div class="media-content">
-							<p class="is-size-5 has-text-weight-semibold has-text-intercoton-green">Jetons Enregistrés</p>
-							<p class="is-size-3 has-text-weight-semibold has-text-intercoton-green">534</p>
-						</div>
-						<div class="media-right">
-							<span class="icon button is-medium is-intercoton-green" ui-sref="admins.projects.create">
-								<i class="fa fa-plus"></i>
-							</span>
+							<p class="is-size-5 has-text-weight-semibold has-text-intercoton-green">Passages enregistrés</p>
+							<p class="is-size-3 has-text-weight-semibold has-text-intercoton-green" ng-bind="stats.today.crossing_today_count">0</p>
 						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="tile is-parent">
-				<div class="tile is-child box  hero is-gamecenter-blue is-none-radius">
+				<div class="tile is-child box hero is-gamecenter-blue is-none-radius">
 					<div class="media">
 						<div class="media-left">
 							<span class="icon">
-								<i class="fas fa-gamepad"></i>
+								<i class="fas fa-donate is-medium"></i>
 							</span>
 							 <span class=""></span>
 						</div>
 						<div class="media-content">
-							<p class="is-size-5 has-text-weight-semibold has-text-intercoton-green">Passages</p>
-							<p class="is-size-3 has-text-weight-semibold has-text-intercoton-green">40</p>
-						</div>
-						<div class="media-right">
-							<span class="icon button is-medium is-intercoton-green" ui-sref="admins.cooperatives.create({page_id:1})">
-								<i class="fa fa-plus"></i>
-							</span>
+							<p class="is-size-5 has-text-weight-semibold has-text-intercoton-green">CA Cumulé</p>
+							<p class="is-size-3 has-text-weight-semibold has-text-intercoton-green" ng-bind="stats.today.crossing_today_sum_amount | currency:'F':0">0</p>
 						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="tile is-parent">
-				<div class="tile is-child box  hero is-gamecenter-blue is-none-radius">
+				<div class="tile is-child box hero is-gamecenter-blue is-none-radius">
 					<div class="media">
 						<div class="media-left">
 							<span class="icon">
-								<i class="fas fa-gamepad"></i>
+								<i class="fas fa-coins is-medium"></i>
 							</span>
 							 <span class=""></span>
 						</div>
 						<div class="media-content">
-							<p class="is-size-5 has-text-weight-semibold has-text-intercoton-green">Gamers</p>
-							<p class="is-size-3 has-text-weight-semibold has-text-intercoton-green">27</p>
-						</div>
-						<div class="media-right">
-							<span class="icon button is-medium is-intercoton-green" ui-sref="admins.cooperatives.create({page_id:1})">
-								<i class="fa fa-plus"></i>
-							</span>
+							<p class="is-size-5 has-text-weight-semibold has-text-intercoton-green">Jetons Cumulés</p>
+							<p class="is-size-3 has-text-weight-semibold has-text-intercoton-green" ng-bind="stats.today.crossing_today_coins">0</p>
 						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="tile is-parent">
-				<div class="tile is-child box  hero is-gamecenter-blue is-none-radius">
+				<div class="tile is-child box hero is-gamecenter-blue is-none-radius">
 					<div class="media">
 						<div class="media-left">
-							<span class="icon medium">
-								<i class="fas fa-boxes"></i>
+							<span class="icon">
+								<i class="fas fa-gift is-medium"></i>
 							</span>
 							 <span class=""></span>
 						</div>
 						<div class="media-content">
-							<p class="is-size-5 has-text-weight-semibold has-text-intercoton-green">Collectés</p>
-							<p class="is-size-3 has-text-weight-semibold has-text-intercoton-green">267 000 CFA</p>
-						</div>
-						<div class="media-right">
-							<span class="icon button is-medium is-intercoton-green" ui-sref="admins.cooperatives.create({page_id:1})">
-								<i class="fa fa-plus"></i>
-							</span>
+							<p class="is-size-5 has-text-weight-semibold has-text-intercoton-green">Bonus Distribués</p>
+							<p class="is-size-3 has-text-weight-semibold has-text-intercoton-green" ng-bind="stats.today.crossing_today_bonus">0</p>
 						</div>
 					</div>
 				</div>
@@ -159,6 +140,13 @@
 		</div>
 	</div>
 
+	<!-- Page Loader -->
+	<div class="pageloader is-left-to-right is-active is-gamecenter-blue" ng-show="is_loading" style="background:#110e39 url('/img/assets/image/minion_loading_stats.png') no-repeat 100% 100%;">
+        <a class="navbar-item" href="#">
+			<img src="/img/assets/logo/gamecenter.png" alt="Orange Security Projects" style="max-height: 100%;max-width:200px;">
+		</a>
+		<span class="title">Collecte des statistiques en cours</span>
+	</div>
 
 
 

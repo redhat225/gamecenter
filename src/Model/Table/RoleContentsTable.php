@@ -9,7 +9,7 @@ use Cake\Validation\Validator;
 /**
  * RoleContents Model
  *
- * @property \App\Model\Table\RolesTable|\Cake\ORM\Association\BelongsTo $Roles
+ * @property |\Cake\ORM\Association\HasMany $RoleContentDynamics
  *
  * @method \App\Model\Entity\RoleContent get($primaryKey, $options = [])
  * @method \App\Model\Entity\RoleContent newEntity($data = null, array $options = [])
@@ -40,9 +40,8 @@ class RoleContentsTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Roles', [
-            'foreignKey' => 'role_id',
-            'joinType' => 'INNER'
+        $this->hasMany('RoleContentDynamics', [
+            'foreignKey' => 'role_content_id'
         ]);
     }
 
@@ -59,10 +58,10 @@ class RoleContentsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('content_controller')
-            ->maxLength('content_controller', 100)
-            ->requirePresence('content_controller', 'create')
-            ->notEmpty('content_controller');
+            ->scalar('content_alias')
+            ->maxLength('content_alias', 100)
+            ->requirePresence('content_alias', 'create')
+            ->notEmpty('content_alias');
 
         $validator
             ->scalar('content_action')
@@ -70,20 +69,12 @@ class RoleContentsTable extends Table
             ->requirePresence('content_action', 'create')
             ->notEmpty('content_action');
 
+        $validator
+            ->scalar('content_controller')
+            ->maxLength('content_controller', 100)
+            ->requirePresence('content_controller', 'create')
+            ->notEmpty('content_controller');
+
         return $validator;
-    }
-
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules)
-    {
-        $rules->add($rules->existsIn(['role_id'], 'Roles'));
-
-        return $rules;
     }
 }

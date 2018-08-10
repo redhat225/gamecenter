@@ -35,6 +35,7 @@ class User extends Entity
         'user_sexe' => true,
         'user_email' => true,
         'user_photo' => true,
+        'user_photo_candidate' => true,
         'user_contact' => true,
         'user_job' => true,
         'created' => true,

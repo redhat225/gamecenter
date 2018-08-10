@@ -57,7 +57,9 @@ $pageDescription = 'Orange Security Projects';
     <?= $this->Html->script('../node_modules/angular-fullcalendar/dist/angular-fullcalendar') ?>
 
     <?= $this->Html->script('fliptimer/fliptimer/jquery.fliptimer') ?>
-    <?= $this->Html->script('font_awesome') ?>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+
 
 
     <base href="/admins/">

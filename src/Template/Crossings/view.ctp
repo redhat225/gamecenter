@@ -17,7 +17,7 @@
 		<div class="column">
 				<div class="field has-addons is-expanded">
 					<div class="control is-expanded">
-						<input type="text" class="input" ng-model="filter_keys">
+						<input type="text" class="input" ng-model="filter_crossings">
 					</div>
 					<div class="control">
 						<a class="button is-intercoton-green is-static">
@@ -28,25 +28,6 @@
 						</a>
 					</div>
 				</div>
-
-
-
-		</div>
-		<div class="column">
-				<button class="button is-gamecenter-blue" ui-sref="admins.accounts.create">
-					<span class="icon">
-						<i class="fas fa-filter"></i>
-					</span>
-					<span>Filtres</span>
-				</button>
-		</div>
-		<div class="column">
-				<button class="button is-gamecenter-pink" ui-sref="admins.accounts.create">
-					<span class="icon">
-						<i class="fa fa-plus"></i>
-					</span>
-					<span>Ajouter passage</span>
-				</button>
 		</div>
 	</div>
 	<!-- Pagintaion module -->
@@ -68,7 +49,7 @@
 				  </p>
 				  <p class="control">
 				    <a class="button is-static is-disabled">
-				      <span ng-bind="pagination.current_page" ng-hide="is_loading">1</span> sur <span ng-bind="pagination.all_pages" ng-hide="is_loading">45</span>
+				      <span ng-bind="pagination.current_page" ng-hide="is_loading"></span>&nbsp;sur&nbsp;<span ng-bind="pagination.all_pages" ng-hide="is_loading"></span>
 				    </a>
 				  </p>
 				  <p class="control">
@@ -83,174 +64,37 @@
      		</div>
      	</div>
 		<div>
-				<!-- Tabular view -->
-				<table class="table is-hoverable is-striped is-fullwidth">
-					<thead>
-						<tr class="gamecenter-pink-b">
-							<th class="has-text-white">Code</th>
-							<th class="has-text-white">Gamer</th>
-							<th class="has-text-white">Caissier</th>
-							<th class="has-text-white">Jetons enregistrés</th>
-							<th class="has-text-white">Equivalence</th>
-							<th class="has-text-white">Date</th>
-							<th class="has-text-white">Action</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr class="">
-							<td>
-								ABC656
-							</td>
-							<td>RIEHL Emmanuel</td>
-							<td>Jonas</td>
-							<td>15</td>
-							<td>7500 F CFA</td>
-							<td>07-04-2018 08H15</td>
-				  			<td>
-									   <div class="dropdown is-hoverable is-right">
-											  <div class="dropdown-trigger">
-											    <button class="button">
-											      <span class="icon is-small">
-													<i class="fas fa-cogs menu-icon"></i>
-											      </span>
-											    </button>
-											  </div>
-											  <div class="dropdown-menu" id="dropdown-menu" role="menu">
-											    <div class="dropdown-content">
-													 <a ui-sref="admins.accounts.edit({user_id:user.id})" class="dropdown-item">
-											            	Modifier utilisateur
-													 </a>
-													 <a class="dropdown-item" ng-click="lock_user_account_trigger(user.user_accounts[0].id, user.user_accounts[0])" >
-											            	Verrouiller utilisateur
-													 </a>
-													 </a>
-													 <a ng-click="lock_user_account_trigger(user.user_accounts[0].id, user.user_accounts[0])" ng-if="user.user_accounts[0].user_account_is_active==false" class="dropdown-item">
-											            	Déverrouiller utilisateur
-													 </a>
-													 <a ng-click="reinit_passsword(user.user_accounts[0].id)"  class="dropdown-item">
-											            	Réinitialiser mot de passe
-													 </a>
-											    </div>
-											  </div>
-											</div>
-				  			</td>
-						</tr>
-												<tr class="">
-							<td>
-								ABC656
-							</td>
-							<td>RIEHL Emmanuel</td>
-							<td>Jonas</td>
-							<td>15</td>
-							<td>7500 F CFA</td>
-							<td>07-04-2018 08H15</td>
-				  			<td>
-									   <div class="dropdown is-hoverable is-right">
-											  <div class="dropdown-trigger">
-											    <button class="button">
-											      <span class="icon is-small">
-													<i class="fas fa-cogs menu-icon"></i>
-											      </span>
-											    </button>
-											  </div>
-											  <div class="dropdown-menu" id="dropdown-menu" role="menu">
-											    <div class="dropdown-content">
-													 <a ui-sref="admins.accounts.edit({user_id:user.id})" class="dropdown-item">
-											            	Modifier utilisateur
-													 </a>
-													 <a class="dropdown-item" ng-click="lock_user_account_trigger(user.user_accounts[0].id, user.user_accounts[0])" >
-											            	Verrouiller utilisateur
-													 </a>
-													 </a>
-													 <a ng-click="lock_user_account_trigger(user.user_accounts[0].id, user.user_accounts[0])" ng-if="user.user_accounts[0].user_account_is_active==false" class="dropdown-item">
-											            	Déverrouiller utilisateur
-													 </a>
-													 <a ng-click="reinit_passsword(user.user_accounts[0].id)"  class="dropdown-item">
-											            	Réinitialiser mot de passe
-													 </a>
-											    </div>
-											  </div>
-											</div>
-				  			</td>
-						</tr>
-												<tr class="">
-							<td>
-								ABC656
-							</td>
-							<td>RIEHL Emmanuel</td>
-							<td>Jonas</td>
-							<td>15</td>
-							<td>7500 F CFA</td>
-							<td>07-04-2018 08H15</td>
-				  			<td>
-									   <div class="dropdown is-hoverable is-right">
-											  <div class="dropdown-trigger">
-											    <button class="button">
-											      <span class="icon is-small">
-													<i class="fas fa-cogs menu-icon"></i>
-											      </span>
-											    </button>
-											  </div>
-											  <div class="dropdown-menu" id="dropdown-menu" role="menu">
-											    <div class="dropdown-content">
-													 <a ui-sref="admins.accounts.edit({user_id:user.id})" class="dropdown-item">
-											            	Modifier utilisateur
-													 </a>
-													 <a class="dropdown-item" ng-click="lock_user_account_trigger(user.user_accounts[0].id, user.user_accounts[0])" >
-											            	Verrouiller utilisateur
-													 </a>
-													 </a>
-													 <a ng-click="lock_user_account_trigger(user.user_accounts[0].id, user.user_accounts[0])" ng-if="user.user_accounts[0].user_account_is_active==false" class="dropdown-item">
-											            	Déverrouiller utilisateur
-													 </a>
-													 <a ng-click="reinit_passsword(user.user_accounts[0].id)"  class="dropdown-item">
-											            	Réinitialiser mot de passe
-													 </a>
-											    </div>
-											  </div>
-											</div>
-				  			</td>
-						</tr>
-												<tr class="">
-							<td>
-								ABC656
-							</td>
-							<td>RIEHL Emmanuel</td>
-							<td>Jonas</td>
-							<td>15</td>
-							<td>7500 F CFA</td>
-							<td>07-04-2018 08H15</td>
-				  			<td>
-									   <div class="dropdown is-hoverable is-right">
-											  <div class="dropdown-trigger">
-											    <button class="button">
-											      <span class="icon is-small">
-													<i class="fas fa-cogs menu-icon"></i>
-											      </span>
-											    </button>
-											  </div>
-											  <div class="dropdown-menu" id="dropdown-menu" role="menu">
-											    <div class="dropdown-content">
-													 <a ui-sref="admins.accounts.edit({user_id:user.id})" class="dropdown-item">
-											            	Modifier utilisateur
-													 </a>
-													 <a class="dropdown-item" ng-click="lock_user_account_trigger(user.user_accounts[0].id, user.user_accounts[0])" >
-											            	Verrouiller utilisateur
-													 </a>
-													 </a>
-													 <a ng-click="lock_user_account_trigger(user.user_accounts[0].id, user.user_accounts[0])" ng-if="user.user_accounts[0].user_account_is_active==false" class="dropdown-item">
-											            	Déverrouiller utilisateur
-													 </a>
-													 <a ng-click="reinit_passsword(user.user_accounts[0].id)"  class="dropdown-item">
-											            	Réinitialiser mot de passe
-													 </a>
-											    </div>
-											  </div>
-											</div>
-				  			</td>
-						</tr>
-					</tbody> 
-				</table>
+		<!-- History table -->
+		<table class="table is-fullwidth is-striped is-hoverable">
+				<thead>
+					<tr class="gamecenter-pink-b">
+						<th class="has-text-white has-text-weight-semibold" >#</th>
+						<th class="has-text-white has-text-weight-semibold" >ID</th>
+						<th class="has-text-white has-text-weight-semibold" >CardID</th>
+						<th class="has-text-white has-text-weight-semibold" >Gamer</th>
+						<th class="has-text-white has-text-weight-semibold" >Date</th>
+						<th class="has-text-white has-text-weight-semibold" >Operateur</th>
+						<th class="has-text-white has-text-weight-semibold" >Montant</th>
+						<th class="has-text-white has-text-weight-semibold" >valeur jeton</th>
+						<th class="has-text-white has-text-weight-semibold" >Equivalence(jetons)</th>
+						<th class="has-text-white has-text-weight-semibold" >Bonus(Jetons)</th>	
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat = "crossing in crossings | filter:filter_crossings">
+						<td>{{$index+1}}</td>
+						<td>{{crossing.transit_identity}}</td>
+						<td>{{crossing.gamer_card.card_identity}}</td>
+						<td>{{crossing.gamer_card.gamer.gamer_fullname}}</td>
+						<td>{{crossing.created | date:'dd/MM/yyyy HH:mm'}}</td>
+						<td>{{crossing.user_account.user.user_fullname}}</td>
+						<td>{{crossing.transit_amount | currency:'F'}}</td>
+						<td>{{crossing.transit_value | currency}}</td>
+						<td>{{crossing.transit_coins}}</td>
+						<td>{{crossing.transit_bonus}}</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 	<!-- Pagintaion module -->

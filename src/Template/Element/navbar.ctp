@@ -2,7 +2,7 @@
 <nav class="navbar is-pad-top-5 is-pad-bot-5 gamecenter-blue-b" style="border-bottom:2px solid #ec008c; background: black;">
 	<div class="navbar-brand">
 		<a ui-sref="admins.dashboard" class="navbar-item">
-			<img src="/img/assets/logo/gamecenter.png" alt="Orange Security Projects" style="max-height: 100%;max-width:120px;" >
+			<img src="/img/assets/logo/gamecenter.png" alt="Game Center" style="max-height: 100%;max-width:120px;" >
 		</a>
 		
 		<a class="navbar-item trigger-resizer has-text-gamecenter-pink is-hidden-mobile">
@@ -30,48 +30,34 @@
 					</span>
 				</button>
 			</a>	
+
+			<div class="navbar-item is-pad-bot-0">
+		        	<?= $this->element('Gamers/search_cards') ?>
+     	            <?= $this->element('Gamers/add_crossing') ?>
+     	            <?= $this->element('Gamers/update_crossing') ?>
+     	            <?= $this->element('Gamers/award_crossing') ?>
+     	            <?= $this->element('Trails/show_trail_card_modal') ?>
+			</div>
 			
-			<a class="navbar-item" ui-sref="admins.sessions({page_id:1})">
-				<span class="icon has-text-white">
-					<i class="fa fa-sticky-note" aria-hidden="true"></i>
-					<b class="is-mar-lft-5">{{$root.brief_stats.reports_count}}</b>
-				</span>
-			</a>
-					<a class="navbar-item" ui-sref="admins.cooperatives({page_id:1})">
-						<span class="icon has-text-white">
-							<i class="far fa-calendar-alt"></i>
-							<b class="is-mar-lft-5">{{$root.brief_stats.cooperatives_count}}</b>
-						</span>
-					</a>
-					<a class="navbar-item" ui-sref="admins.zones({page_id:1})">
-						<span class="icon has-text-white">
-							<i class="fa fa-globe" aria-hidden="true"></i>
-							<b class="is-mar-lft-5">{{$root.brief_stats.zones_count}}</b>
-						</span>
-					</a>
-					<a class="navbar-item" ui-sref="admins.auditors({page_id:1})">
-						<span class="icon has-text-white">
-							<i class="fa fa-users" aria-hidden="true"></i>
-							<b class="is-mar-lft-5">{{$root.brief_stats.auditor_accounts_count}}</b>
-						</span>
-					<div class="navbar-item has-dropdown is-hoverable" class="account-dropdown">
-						<a class="navbar-link has-text-white" >
-							<span class="has-text-weight-semibold has-text-white">missago&nbsp;</span>
-								<figure class="image is-32x32">
-									  <img src="/img/assets/admins/avatar/miss.png" alt="" style="max-height:100%; border-radius:50%;">
-								</figure>
-						</a>
+					<a class="navbar-item" id="profile-section">
+						<div class="navbar-item has-dropdown {{profile_dropdown_trigger}}" class="account-dropdown" ng-click="show_profile_menu()">
+							<a class="navbar-link has-text-white gamecenter-blue-b">
+								<span class="has-text-weight-semibold has-text-white">{{profile.username}}&nbsp;</span>
+									<figure class="image is-32x32">
+										  <img src="/img/assets/admins/avatar/{{profile.user_avatar}}" alt="" style="max-height:100%; border-radius:50%;">
+									</figure>
+							</a>
 
-						<div class="navbar-dropdown gamecenter-pink-b">
-							  <a class="navbar-item" ui-sref="admins.profile.edit" ui-sref-active="is-active">
-							   <span class="has-text-white">Mon profil</span> 
-							  </a>
-							   <a class="navbar-item" href="/admins/logout" target="_self">
-							   <span class="has-text-white">Déconnexion</span> 
-							  </a>
-						</div>	
-					</div>
-
+							<div class="navbar-dropdown gamecenter-blue-b">
+								  <a class="navbar-item" ui-sref="admins.profiles.edit" ui-sref-active="is-active">
+								   <span class="has-text-white">Mon profil</span> 
+								  </a>
+								   <a class="navbar-item" href="/admins/logout" target="_self">
+								   <span class="has-text-white">Déconnexion</span> 
+								  </a>
+							</div>	
+						</div>
+					</a>
 			<a  class="navbar-item" href="/admins/logout" target="_self">
 				<button class="button is-black">
 					<span class="icon">

@@ -24,6 +24,7 @@ use \Exception as MainException;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Cake\Utility\Security;
+use Cake\Cache\Cache;
 use Cake\Auth\DefaultPasswordHasher;
 /**
  * Static content controller
@@ -65,6 +66,7 @@ class AdminsController extends AppController
     }
 
     public function index(){
+
     }
 
 
@@ -103,6 +105,10 @@ class AdminsController extends AppController
         }
     }
 
+    public function options(){
+        
+    }
+
     public function home(){
 
     }
@@ -111,7 +117,6 @@ class AdminsController extends AppController
     }
 
     public function logout(){
-        $this->Cookie->delete('WelcomeTour');
         return $this->redirect($this->Auth->logout());
     }
 

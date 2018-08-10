@@ -11,8 +11,8 @@
 	<div class="column is-4 is-pad-bot-200">
 		<div class="section is-medium">
                <div class="has-text-left-mobile has-text-centered-widescreen">
-					<figure>
-						<img src="/webroot/img/assets/logo/gamecenter.png" width="55%" alt="">
+					<figure class=>
+						<img src="/img/assets/logo/gamecenter.png" width="55%" alt="">
 					</figure>
                </div>
                      <div>
@@ -21,7 +21,7 @@
 							<div class="field">
 							  <label class="label has-text-white">Identifiant</label>
 							  <div class="loginForm control has-icons-right has-icons-left">
-							    <input class="input" name='username' required ng-model="logincontroller.credentials.username" type="text" ng-minlength="6" ng-maxlength="20" placeholder="Identifiant">
+							    <input class="input" name='username' required ng-model="logincontroller.credentials.username" type="text" ng-minlength="2" ng-maxlength="20" placeholder="Identifiant">
 								 	<span class="icon is-small is-left">
 								 		<i class="fa fa-user-o" aria-hidden="true"></i>
 								 	</span>

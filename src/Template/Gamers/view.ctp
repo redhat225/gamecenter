@@ -74,26 +74,22 @@
 						<tr class="gamecenter-pink-b">
 							<th class="has-text-white">Nom</th>
 							<th class="has-text-white">Code</th>
-							<th class="has-text-white">Nombres Passages Cumulés</th>
-							<th class="has-text-white">Jetons Cumulés</th>
-							<th class="has-text-white">Equivalence</th>
-							<th class="has-text-white">Premier passage</th>
+							<th class="has-text-white">Catégorie</th>
+							<th class="has-text-white">Carte Active</th>
 							<th class="has-text-white">Dernier Passage</th>
 							<th class="has-text-white">Plus informations</th>
 							<th class="has-text-white">Action</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr  class="">
-							<td>RIEHL Emmanuel</td>
-							<td>GC-5855</td>
-							<td class="has-text-centered">18</td>
-							<td class="has-text-centered">100</td>
-							<td class="has-text-centered">50 000 F CFA</td>
-							<td>01-01-2018 18H45</td>
-							<td>01-04-2018 18H45</td>
+						<tr ng-repeat="gamer in $root.gamers_retrieve | filter:filter_keys">
+							<td>{{gamer.gamer_fullname}}</td>
+							<td>{{gamer.gamer_identity}}</td>
+							<td class="has-text-centered">{{gamer.gamer_category}}</td>
+							<td>{{gamer.gamer_cards[0].card_identity}}</td>
+							<td ng-bind="get_last_crossing(gamer.gamer_cards[0])">&nbsp;</td>
 							<td>
-								<button class="button is-gamecenter-pink is-outlined" ng-click='openViewModal(project)'>
+								<button class="button is-gamecenter-pink is-outlined" ng-click='set_crossing_gamer(gamer, $index)'>
 									<span class="icon">
 										<i class="fas fa-info"></i>
 									</span>
@@ -114,103 +110,17 @@
 								   <div class="dropdown-menu" id="dropdown-menu" role="menu">
 										   <div class="dropdown-content">
 													  <h3 class="is-size-7 has-text-gamecenter-pink has-text-weight-bold">Gamer</h3>
-													 <a target="_blank" href="/projects/preview/{{project.id}}.pdf" target="_blank" class="dropdown-item">
-											            	Créer un passage
-													 </a>
-													  <a ui-sref="admins.projects.edit({project_id:project.id})" class="dropdown-item">
+													  <a ui-sref="admins.gamers.edit({gamer_id:gamer.id})" class="dropdown-item">
 											            	Modifier Gamer
 													 </a>
-													   <a ng-click="showWorkflowModal()" class="dropdown-item">
-															Supprimer Gamer
-													 </a>
-											    </div>
-											  </div>
-									    </div>
-				  			</td>
-						</tr>
-						<tr  class="">
-							<td>RIEHL Kim</td>
-							<td>GC-5955</td>
-							<td class="has-text-centered">8</td>
-							<td class="has-text-centered">200</td>
-							<td class="has-text-centered">100 000 F CFA</td>
-							<td>03-01-2018 08H45</td>
-							<td>05-04-2018 18H45</td>
-							<td>
-								<button class="button is-gamecenter-pink is-outlined" ng-click='openViewModal(project)'>
-									<span class="icon">
-										<i class="fas fa-info"></i>
-									</span>
-									<span>
-										+infos
-									</span>
-								</button>
-							</td>
-				  			<td>
-							   <div class="dropdown is-hoverable is-right">
-								   <div class="dropdown-trigger">
-										   <button class="button">
-											    <span class="icon is-small">
-								   <i class="fas fa-cogs menu-icon"></i>
-											    </span>
-										   </button>
-								   </div>
-								   <div class="dropdown-menu" id="dropdown-menu" role="menu">
-										   <div class="dropdown-content">
-													  <h3 class="is-size-7 has-text-gamecenter-pink has-text-weight-bold">Gamer</h3>
-													 <a target="_blank" href="/projects/preview/{{project.id}}.pdf" target="_blank" class="dropdown-item">
-											            	Créer un passage
-													 </a>
-													  <a ui-sref="admins.projects.edit({project_id:project.id})" class="dropdown-item">
-											            	Modifier Gamer
-													 </a>
-													   <a ng-click="showWorkflowModal()" class="dropdown-item">
-															Supprimer Gamer
-													 </a>
-											    </div>
-											  </div>
-									    </div>
-				  			</td>
-						</tr>
-						<tr  class="">
-							<td>RIEHL Karine</td>
-							<td>GC-5450</td>
-							<td class="has-text-centered">8</td>
-							<td class="has-text-centered">80</td>
-							<td class="has-text-centered">40 000 F CFA</td>
-							<td>03-01-2018 08H45</td>
-							<td>05-04-2018 18H45</td>
-							<td>
-								<button class="button is-gamecenter-pink is-outlined" ng-click='openViewModal()'>
-									<span class="icon">
-										<i class="fas fa-info"></i>
-									</span>
-									<span>
-										+infos
-									</span>
-								</button>
-							</td>
-				  			<td>
-							   <div class="dropdown is-hoverable is-right">
-								   <div class="dropdown-trigger">
-										   <button class="button">
-											    <span class="icon is-small">
-								   <i class="fas fa-cogs menu-icon"></i>
-											    </span>
-										   </button>
-								   </div>
-								   <div class="dropdown-menu" id="dropdown-menu" role="menu">
-										   <div class="dropdown-content">
-													  <h3 class="is-size-7 has-text-gamecenter-pink has-text-weight-bold">Gamer</h3>
-													 <a target="_blank" href="/projects/preview/{{project.id}}.pdf" target="_blank" class="dropdown-item">
-											            	Créer un passage
-													 </a>
-													  <a ui-sref="admins.projects.edit({project_id:project.id})" class="dropdown-item">
-											            	Modifier Gamer
-													 </a>
-													   <a ng-click="showWorkflowModal()" class="dropdown-item">
-															Supprimer Gamer
-													 </a>
+								<!-- 					   <a ng-if="gamer.gamer_is_active==true" ng-click="lock_gamer(gamer.id,gamer)" class="dropdown-item">
+															Suspendre Compte
+													   </a> -->
+
+													   <a ng-if="gamer.gamer_is_active==false" ng-click="unlock_gamer(gamer.id,gamer)" class="dropdown-item">
+															Réactiver Compte
+													   </a>
+
 											    </div>
 											  </div>
 									    </div>
@@ -253,6 +163,8 @@
 				</div>
      		</div>
      	</div>
-     	<!-- Modal Box Info passages -->
-     	<?= $this->element('RoadClient/modal_info_road') ?>
+     	  <?= $this->element('Gamers/add_crossing') ?>
+     	  <?= $this->element('Gamers/update_crossing') ?>
+     	  <?= $this->element('Gamers/award_crossing') ?>
 </section>
+

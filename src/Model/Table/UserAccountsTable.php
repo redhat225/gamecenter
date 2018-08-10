@@ -56,6 +56,8 @@ class UserAccountsTable extends Table
         ]);
     }
 
+ 
+
     /**
      * Default validation rules.
      *
@@ -95,8 +97,86 @@ class UserAccountsTable extends Table
             ->requirePresence('created_by', 'create')
             ->notEmpty('created_by');
 
+        //custom fields validation
+        $validator
+            ->add('user_account_avatar_candidate', 'file', [
+                'rule' => ['mimeType', ['image/jpeg','image/jpg','image/png','image/bitmap','image/gif']],
+                'on' => function($context){
+
+                return (!empty($context['user_account_avatar_candidate'])|| !empty($context['data']['user_account_avatar_candidate']) );
+                }
+            ])->add('user_account_avatar_candidate', 'fileSize',[
+                'rule' => ['fileSize', '<', '3MB'],
+                'on' => function($context){
+                    return (!empty($context['user_account_avatar_candidate']) || !empty($context['data']['user_account_avatar_candidate']));
+
+                }
+            ]);
+
         return $validator;
     }
+
+  public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options){
+
+        if(isset($data['action'])){
+            switch($data['action']){
+                case 'create':
+
+                break;
+
+                case 'edit-profile':
+
+                    if(isset($data['profile_accounts'])){
+                        $account_credentials = $data['profile_accounts'][0];
+                        $hasher = new DefaultPasswordHasher();
+                        if($hasher->check($account_credentials['account_password_old'],$data['old_password']))
+                            $data['password'] = $account_credentials['account_password_new'];
+                        else
+                            throw new Exception\ForbiddenException(__('forbidden'));
+                    }
+
+                break;
+
+                case 'edit-admin':
+                
+                break;
+            }
+        }
+   }
+
+    public function beforeSave($event, $entity, $options){
+        if($entity->isNew())
+        {
+            if(isset($entity->user_account_avatar_candidate))
+            {
+                //save profile photo
+                $target = Text::uuid().'.'.strtolower(pathinfo($entity->user_account_avatar_candidate['name'],PATHINFO_EXTENSION));
+                if(move_uploaded_file($entity->user_account_avatar_candidate['tmp_name'], WWW_ROOT.'img/assets/admins/avatar/'.$target))
+                {
+                    //assign right value to user_account_avatar
+                    $entity->user_account_avatar = $target;
+                }else
+                  return false;
+            }
+
+        }else
+        {
+            if(isset($entity->user_account_avatar_candidate) && $entity->user_account_avatar_candidate!=='null')
+            {
+                  //replace photo
+                $old_path_photo = WWW_ROOT.'img/assets/admins/avatar/'.$entity->user_avatar;
+                  if(file_exists($old_path_photo))
+                       unlink($old_path_photo);
+                   $target = Text::uuid().'.'.strtolower(pathinfo($entity->user_account_avatar_candidate['name'],PATHINFO_EXTENSION));
+                    if(move_uploaded_file($entity->user_account_avatar_candidate['tmp_name'], WWW_ROOT.'img/assets/admins/avatar/'.$target)){
+                        //assign right value to user_account_avatar
+                        $entity->user_avatar = $target;
+                    }else
+                      return false;
+            }
+        }
+    }
+
 
     /**
      * Returns a rules checker object that will be used for validating
