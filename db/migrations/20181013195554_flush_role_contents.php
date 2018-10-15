@@ -82,7 +82,7 @@ class FlushRoleContents extends AbstractMigration
                         "content_alias" => "Ajout Passage",
                         "role_id" => $row['id'],
                         "content_action" => "/crossings/create",
-                        "content_controller" => "Gamers",
+                        "content_controller" => "Crossings",
                         "created" => $now_formatted,
                         "modified" => $now_formatted
                     ],
@@ -91,7 +91,7 @@ class FlushRoleContents extends AbstractMigration
                         "content_alias" => "Créer Tombola",
                         "role_id" => $row['id'],
                         "content_action" => "/raffles/create",
-                        "content_controller" => "Gamers",
+                        "content_controller" => "Raffles",
                         "created" => $now_formatted,
                         "modified" => $now_formatted
                     ]
@@ -151,7 +151,7 @@ class FlushRoleContents extends AbstractMigration
                         "content_alias" => "Ajout Passage",
                         "role_id" => $row['id'],
                         "content_action" => "/crossings/create",
-                        "content_controller" => "Gamers",
+                        "content_controller" => "Crossings",
                         "created" => $now_formatted,
                         "modified" => $now_formatted
                     ],
@@ -160,7 +160,7 @@ class FlushRoleContents extends AbstractMigration
                         "content_alias" => "Créer Tombola",
                         "role_id" => $row['id'],
                         "content_action" => "/raffles/create",
-                        "content_controller" => "Gamers",
+                        "content_controller" => "Raffles",
                         "created" => $now_formatted,
                         "modified" => $now_formatted
                     ]
@@ -220,7 +220,25 @@ class FlushRoleContents extends AbstractMigration
                         "content_alias" => "Modifier Passage",
                         "role_id" => $row['id'],
                         "content_action" => "/crossings/update",
+                        "content_controller" => "Crossings",
+                        "created" => $now_formatted,
+                        "modified" => $now_formatted
+                    ],
+                    [
+                        'id'=>Text::uuid(),
+                        "content_alias" => "Modifier Passage",
+                        "role_id" => $row['id'],
+                        "content_action" => "/gamers/suppress-current-card",
                         "content_controller" => "Gamers",
+                        "created" => $now_formatted,
+                        "modified" => $now_formatted
+                    ],
+                    [
+                        'id'=>Text::uuid(),
+                        "content_alias" => "Modifier Passage",
+                        "role_id" => $row['id'],
+                        "content_action" => "/crossings/cancel",
+                        "content_controller" => "Crossings",
                         "created" => $now_formatted,
                         "modified" => $now_formatted
                     ],
@@ -232,7 +250,27 @@ class FlushRoleContents extends AbstractMigration
                         "content_controller" => "Gamers",
                         "created" => $now_formatted,
                         "modified" => $now_formatted
+                    ],
+                    [
+                        'id'=>Text::uuid(),
+                        "content_alias" => "Créer Tombola",
+                        "role_id" => $row['id'],
+                        "content_action" => "/dashboard/monthly",
+                        "content_controller" => "Dashboard",
+                        "created" => $now_formatted,
+                        "modified" => $now_formatted
+                    ],
+                    [
+                        'id'=>Text::uuid(),
+                        "content_alias" => "Créer Tombola",
+                        "role_id" => $row['id'],
+                        "content_action" => "/dashboard/today",
+                        "content_controller" => "Dashboard",
+                        "created" => $now_formatted,
+                        "modified" => $now_formatted
                     ]
+
+                    
                 ];
                 $this->table('role_contents')->insert($caissiere_forbidden_roles)->save();
                 break;
