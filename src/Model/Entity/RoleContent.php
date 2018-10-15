@@ -8,12 +8,13 @@ use Cake\ORM\Entity;
  *
  * @property string $id
  * @property string $content_alias
+ * @property string $role_id
  * @property string $content_action
  * @property string $content_controller
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  *
- * @property \App\Model\Entity\Role $role
+ * @property \App\Model\Entity\RoleContentDynamic[] $role_content_dynamics
  */
 class RoleContent extends Entity
 {
@@ -29,10 +30,11 @@ class RoleContent extends Entity
      */
     protected $_accessible = [
         'content_alias' => true,
+        'role_id' => true,
         'content_action' => true,
         'content_controller' => true,
         'created' => true,
         'modified' => true,
-        'role' => true
+        'role_content_dynamics' => true
     ];
 }

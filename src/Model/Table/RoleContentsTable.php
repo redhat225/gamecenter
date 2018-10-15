@@ -9,7 +9,7 @@ use Cake\Validation\Validator;
 /**
  * RoleContents Model
  *
- * @property |\Cake\ORM\Association\HasMany $RoleContentDynamics
+ * @property |\Cake\ORM\Association\BelongsTo $Roles
  *
  * @method \App\Model\Entity\RoleContent get($primaryKey, $options = [])
  * @method \App\Model\Entity\RoleContent newEntity($data = null, array $options = [])
@@ -40,8 +40,9 @@ class RoleContentsTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->hasMany('RoleContentDynamics', [
-            'foreignKey' => 'role_content_id'
+        $this->belongsTo('Roles', [
+            'foreignKey' => 'role_id',
+            'joinType' => 'INNER'
         ]);
     }
 
@@ -76,5 +77,19 @@ class RoleContentsTable extends Table
             ->notEmpty('content_controller');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->existsIn(['role_id'], 'Roles'));
+
+        return $rules;
     }
 }

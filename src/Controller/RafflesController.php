@@ -60,7 +60,7 @@ class RafflesController extends AppController
                     $data['action'] = 'create';
                     $account_uuid = $this->request->session()->read('Auth.User.id');
                     $data['creator'] = $account_uuid;
-                    $gamer = $this->Gamers->find()
+                    $gamer = $this->Gamers->find()->Where(['Gamers.gamer_is_active'=>true])
                                   ->order('rand()')->firstOrFail();
                     if($gamer){
                         $data['gamer_id'] = $gamer->id;

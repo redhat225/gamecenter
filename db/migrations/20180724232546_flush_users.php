@@ -65,7 +65,7 @@ class FlushUsers extends AbstractMigration
             ],
             [
                 "id" => Text::uuid(),
-                "role_denomination" => "Caisse",
+                "role_denomination" => "Gerant",
                 "created" => $now_formatted,
                 "modified" => $now_formatted,
                 "created_by" => $user_id_1,
@@ -86,19 +86,11 @@ class FlushUsers extends AbstractMigration
             ],
             [
                 "id" => Text::uuid(),
-                "role_denomination" => "Gérant",
+                "role_denomination" => "Caissiere",
                 "created" => $now_formatted,
                 "modified" => $now_formatted,
                 "created_by" => $user_id_1,
             ],
-            [
-                "id" => Text::uuid(),
-                "role_denomination" => "Viewer",
-                "created" => $now_formatted,
-                "modified" => $now_formatted,
-                "created_by" => $user_id_1,
-            ],
-
         ];
 
         $table->insert($roles);

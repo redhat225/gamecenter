@@ -114,6 +114,9 @@ class AdminsController extends AppController
     }
 
     public function dashboard(){
+        $current_date = new \DateTime('NOW');
+        $current_month = $current_date->format('F');
+        $this->set(compact('current_month'));
     }
 
     public function logout(){

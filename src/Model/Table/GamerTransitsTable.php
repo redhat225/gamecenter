@@ -87,6 +87,11 @@ class GamerTransitsTable extends Table
             ->requirePresence('transit_amount', 'create')
             ->notEmpty('transit_amount');
 
+      $validator
+            ->boolean('transit_is_active')
+            ->requirePresence('transit_is_active', 'create')
+            ->notEmpty('transit_is_active');
+
         $validator
             ->integer('transit_value')
             ->requirePresence('transit_value', 'create')
@@ -115,7 +120,7 @@ class GamerTransitsTable extends Table
                     $data['transit_value'] = $option->option_current_coin_value;
                     $data['transit_coins'] =intval(ceil($data['transit_amount']/ $data['transit_value']));
                     $date = new \DateTime('NOW');
-
+                    $data['transit_is_active'] = true;
                     $TransitTable = TableRegistry::get('GamerTransits');
                     $transit_count = $TransitTable->find()->count();
                     $data['transit_identity'] = 'P-'.$date->format('mY').'-'.($transit_count+1);
@@ -123,7 +128,7 @@ class GamerTransitsTable extends Table
                     $GamerCardTable = TableRegistry::get('GamerCards');
                     $last_card_id = $GamerCardTable->find()->where(['gamer_id'=>$data['gamer_id']])->order(['created'=>'desc'])->select(['id'])->first();
                     // count transits
-                    $transits = $TransitTable->find()->where(['gamer_card_id'=>$last_card_id->id])->count();
+                    $transits = $TransitTable->find()->where(['gamer_card_id'=>$last_card_id->id,'transit_is_active'=>true])->count();
 
                     $data['user_account_id'] = $data['creator'];
                     $data['gamer_card_id'] = $last_card_id->id;
@@ -152,7 +157,8 @@ class GamerTransitsTable extends Table
                         case 10:
                             // bonus
                             $query_transits = $TransitTable->find();
-                            $result_transit_query = $query_transits->select(['total_amount'=>$query_transits->func()->sum('transit_amount')])->where(['gamer_card_id'=>$last_card_id->id])->toArray()[0];
+                            $result_transit_query = $query_transits->select(['total_amount'=>$query_transits->func()->sum('transit_amount')])->where(['gamer_card_id'=>$last_card_id->id,'transit_is_active'=>true])->toArray()[0];
+
                             if($result_transit_query->total_amount!=null){
                                  if($result_transit_query->total_amount >= 10000){
                                        $bonus = intval(ceil((0.15*($result_transit_query->total_amount+$data['transit_amount']))/$option->option_current_coin_value));
@@ -175,8 +181,6 @@ class GamerTransitsTable extends Table
                 break;
 
                 case 'update':
-                    // debug($data);
-                    // die();
                     // make calculations on new value
                     try{
                         $data['transit_coins'] = intval(ceil($data['transit_amount']/$data['old_current_value']));
@@ -185,6 +189,24 @@ class GamerTransitsTable extends Table
                             'trace_type' => 'update',
                             'created_by' => $data['creator'],
                             'trace_info' => "Modification du passage de ".$data['old_transit_value']." F CFA équivalent à ".$data['old_transit_coins']." jeton(s) à ".$data['transit_amount']." F CFA équivalent à ".$data['transit_coins']." jeton(s)"
+                        ];
+
+                        $data['gamer_transit_traces'] = [
+                            $traces
+                        ];
+                    }catch(MainException $e){
+                        throw new Exception\ForbiddenException(__('forbidden exception 1'));
+                    }
+                break;
+
+                case 'cancel':
+                    // make calculations on new value
+                    $data['transit_coins'] = intval(ceil($data['transit_amount']/$data['old_current_value']));
+                    try{
+                        $traces = [
+                            'trace_type' => 'cancel',
+                            'created_by' => $data['creator'],
+                            'trace_info' => "Annulation du passage de ".$data['old_transit_value']." F CFA équivalent à ".$data['old_transit_coins']." jeton(s) à"
                         ];
 
                         $data['gamer_transit_traces'] = [

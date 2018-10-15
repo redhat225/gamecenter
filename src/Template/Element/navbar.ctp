@@ -1,5 +1,6 @@
 <!-- Home interface -->
 <nav class="navbar is-pad-top-5 is-pad-bot-5 gamecenter-blue-b" style="border-bottom:2px solid #ec008c; background: black;">
+
 	<div class="navbar-brand">
 		<a ui-sref="admins.dashboard" class="navbar-item">
 			<img src="/img/assets/logo/gamecenter.png" alt="Game Center" style="max-height: 100%;max-width:120px;" >

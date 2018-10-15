@@ -12,7 +12,7 @@ use Cake\ORM\Entity;
  * @property string $created_by
  * @property \Cake\I18n\FrozenTime $modified
  *
- * @property \App\Model\Entity\RoleContent[] $role_contents
+ * @property \App\Model\Entity\RoleContentDynamic[] $role_content_dynamics
  * @property \App\Model\Entity\UserAccount[] $user_accounts
  */
 class Role extends Entity
@@ -32,7 +32,7 @@ class Role extends Entity
         'created' => true,
         'created_by' => true,
         'modified' => true,
-        'role_contents' => true,
+        'role_content_dynamics' => true,
         'user_accounts' => true
     ];
 }

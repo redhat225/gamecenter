@@ -85,6 +85,7 @@ Router::scope('/gamers', function (RouteBuilder $routes) {
     $routes->connect('/unlock',['controller'=>'Gamers', 'action'=>'unlock']);
     $routes->connect('/refresh-cache',['controller'=>'Gamers', 'action'=>'refreshCache']);
     $routes->connect('/retrieve',['controller'=>'Gamers', 'action'=>'retrieve']);
+    $routes->connect('/suppress-current-card',['controller'=>'Gamers', 'action'=>'suppressCurrentCard']);
 });
 
 Router::scope('/roles', function (RouteBuilder $routes) {
@@ -139,6 +140,7 @@ Router::scope('/crossings', function (RouteBuilder $routes) {
     $routes->connect('/update',['controller'=>'Crossings', 'action'=>'update']);
     $routes->connect('/all',['controller'=>'Crossings', 'action'=>'all']);
     $routes->connect('/get',['controller'=>'Crossings', 'action'=>'get']);
+    $routes->connect('/cancel',['controller'=>'Crossings', 'action'=>'cancel']);
 });
 /**
  * Load all plugin routes. See the Plugin documentation on

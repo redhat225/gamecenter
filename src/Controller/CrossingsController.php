@@ -40,6 +40,8 @@ class CrossingsController extends AppController
     public function initialize(){
         parent::initialize();
         $this->loadModel('GamerTransits');
+        $this->loadModel('GamerCards');
+        $this->loadModel('Gamers');
     }
 
     public function beforeFilter(Event $event){
@@ -58,23 +60,70 @@ class CrossingsController extends AppController
             if($this->request->is('post')){
                 $data = $this->request->data['crossing'];
                 $data['action'] = 'create';
-                $account_uuid = $this->request->session()->read('Auth.User.id');
-                $data['creator'] = $account_uuid;
-                $transit = $this->GamerTransits->newEntity($data,['associated'=>['GamerTransitTraces']]);
-                if(!$transit->errors()){
-                    if($this->GamerTransits->save($transit)){
-                        if($this->updateCacheCrossing()){
-                            $response = ['message'=>'ok'];
-                            $this->RequestHandler->renderAs($this, 'json');
-                            $this->set(compact('response'));
-                            $this->set('_serialize',['response']);
+                // verify gamer is off or on
+                $gamer = $this->Gamers->get($data['gamer_id']);
+                if($gamer->gamer_is_active){
+                    // Treatment
+                    $account_uuid = $this->request->session()->read('Auth.User.id');
+                    $data['creator'] = $account_uuid;
+                    $transit = $this->GamerTransits->newEntity($data,['associated'=>['GamerTransitTraces']]);
+                    if(!$transit->errors()){
+                        if($this->GamerTransits->save($transit)){
+                            if($this->updateCacheCrossing()){
+                                $response = ['message'=>'ok'];
+                                $this->RequestHandler->renderAs($this, 'json');
+                                $this->set(compact('response'));
+                                $this->set('_serialize',['response']);
+                            }else
+                              throw new Exception\BadRequestException(__('create exception 3'));
                         }else
-                          throw new Exception\BadRequestException(__('create exception 3'));
-                    }else
-                      throw new Exception\BadRequestException(__('create exception 2'));
+                          throw new Exception\BadRequestException(__('create exception 2'));
 
+                    }else
+                        throw new Exception\BadRequestException(__('create exception 1'));
                 }else
-                    throw new Exception\BadRequestException(__('create exception 1'));
+                    throw new Exception\BadRequestException(__('gamer canceled exception 1'));
+            }
+        }
+    }
+
+    public function cancel(){
+       if($this->request->is('ajax')){
+            if($this->request->is('post')){
+                $data = $this->request->data['crossing'];
+                // verify gamer is off or on
+                $gamer = $this->GamerCards->get($data['gamer_card_id'],['contain'=>['Gamers']]);
+                if($gamer->gamer->gamer_is_active){
+                        $data['action'] = 'cancel';
+                        $account_uuid = $this->request->session()->read('Auth.User.id');
+                        $data['creator'] = $account_uuid;
+                        $transit = $this->GamerTransits->get($data['id']);
+                        $data['action'] = 'cancel';
+                        $data['old_transit_value'] = $transit['transit_amount'];
+                        $data['old_transit_coins'] = $transit['transit_coins'];
+                        $data['old_current_value'] = $transit['transit_value'];
+
+                        $transit = $this->GamerTransits->patchEntity($transit,$data,['associated'=>['GamerTransitTraces'=>['fieldList'=>['trace_type','trace_info','created_by']]],'fieldList'=>['transit_amount','transit_coins','gamer_transit_traces']]);
+
+                        $transit->dirty('gamer_transit_traces',true);
+                        $transit->transit_is_active = false;
+                        
+                        if(!$transit->errors()){
+                            if($this->GamerTransits->save($transit)){
+                                    if($this->updateCacheCrossing()){
+                                        $response = ['message'=>'ok'];
+                                        $this->RequestHandler->renderAs($this, 'json');
+                                        $this->set(compact('response'));
+                                        $this->set('_serialize',['response']);
+                                    }else
+                                      throw new Exception\BadRequestException(__('cache update exception 3'));
+                            }else
+                              throw new Exception\BadRequestException(__('update exception 2'));
+
+                        }else
+                            throw new Exception\BadRequestException(__('update exception 1'));
+                }else
+                    throw new Exception\BadRequestException(__('gamer canceled exception 1'));
             }
         }
     }
@@ -83,33 +132,38 @@ class CrossingsController extends AppController
        if($this->request->is('ajax')){
             if($this->request->is('post')){
                 $data = $this->request->data['crossing'];
-                $data['action'] = 'update';
-                $account_uuid = $this->request->session()->read('Auth.User.id');
-                $data['creator'] = $account_uuid;
-                $transit = $this->GamerTransits->get($data['id']);
-                $data['action'] = 'update';
-                $data['old_transit_value'] = $transit['transit_amount'];
-                $data['old_transit_coins'] = $transit['transit_coins'];
-                $data['old_current_value'] = $transit['transit_value'];
+                $gamer = $this->GamerCards->get($data['gamer_card_id_mock'],['contain'=>['Gamers']]);
+                if($gamer->gamer_is_active){
+                        $data['action'] = 'update';
+                        $account_uuid = $this->request->session()->read('Auth.User.id');
+                        $data['creator'] = $account_uuid;
+                        $transit = $this->GamerTransits->get($data['id']);
+                        $data['action'] = 'update';
+                        $data['old_transit_value'] = $transit['transit_amount'];
+                        $data['old_transit_coins'] = $transit['transit_coins'];
+                        $data['old_current_value'] = $transit['transit_value'];
 
-                $transit = $this->GamerTransits->patchEntity($transit,$data,['associated'=>['GamerTransitTraces'=>['fieldList'=>['trace_type','trace_info','created_by']]],'fieldList'=>['transit_amount','transit_coins','gamer_transit_traces']]);
+                        $transit = $this->GamerTransits->patchEntity($transit,$data,['associated'=>['GamerTransitTraces'=>['fieldList'=>['trace_type','trace_info','created_by']]],'fieldList'=>['transit_amount','transit_coins','gamer_transit_traces']]);
 
-                $transit->dirty('gamer_transit_traces',true);
-                
-                if(!$transit->errors()){
-                    if($this->GamerTransits->save($transit)){
-                            if($this->updateCacheCrossing()){
-                                $response = ['message'=>'ok'];
-                                $this->RequestHandler->renderAs($this, 'json');
-                                $this->set(compact('response'));
-                                $this->set('_serialize',['response']);
+                        $transit->dirty('gamer_transit_traces',true);
+                        
+                        if(!$transit->errors()){
+                            if($this->GamerTransits->save($transit)){
+                                    if($this->updateCacheCrossing()){
+                                        $response = ['message'=>'ok'];
+                                        $this->RequestHandler->renderAs($this, 'json');
+                                        $this->set(compact('response'));
+                                        $this->set('_serialize',['response']);
+                                    }else
+                                      throw new Exception\BadRequestException(__('cache update exception 3'));
                             }else
-                              throw new Exception\BadRequestException(__('cache update exception 3'));
-                    }else
-                      throw new Exception\BadRequestException(__('update exception 2'));
+                              throw new Exception\BadRequestException(__('update exception 2'));
 
+                        }else
+                            throw new Exception\BadRequestException(__('update exception 1'));
                 }else
-                    throw new Exception\BadRequestException(__('update exception 1'));
+                   throw new Exception\BadRequestException(__('gamer canceled exception 1'));
+
             }
         }
     }

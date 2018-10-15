@@ -1,4 +1,10 @@
 <section ui-view>
+<style>
+	.gamer-canceled{
+		color: #fff !important;
+		background: grey !important;
+	}
+</style>
 	<div class="columns">
 		<div class="column">
 			<nav class="breadcrumb" aria-label="breadcrumbs">
@@ -82,7 +88,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="gamer in $root.gamers_retrieve | filter:filter_keys">
+						<tr ng-repeat="gamer in $root.gamers_retrieve | filter:filter_keys" ng-class="analyze_gamer(gamer)">
 							<td>{{gamer.gamer_fullname}}</td>
 							<td>{{gamer.gamer_identity}}</td>
 							<td class="has-text-centered">{{gamer.gamer_category}}</td>
@@ -113,14 +119,17 @@
 													  <a ui-sref="admins.gamers.edit({gamer_id:gamer.id})" class="dropdown-item">
 											            	Modifier Gamer
 													 </a>
-								<!-- 					   <a ng-if="gamer.gamer_is_active==true" ng-click="lock_gamer(gamer.id,gamer)" class="dropdown-item">
+								 					 <a ng-if="gamer.gamer_is_active==true" ng-click="lock_gamer(gamer.id,gamer)" class="dropdown-item">
 															Suspendre Compte
-													   </a> -->
+													 </a> 
 
-													   <a ng-if="gamer.gamer_is_active==false" ng-click="unlock_gamer(gamer.id,gamer)" class="dropdown-item">
+													 <a ng-if="gamer.gamer_is_active==false" ng-click="unlock_gamer(gamer.id,gamer)" class="dropdown-item">
 															Réactiver Compte
-													   </a>
+													 </a>
 
+													 <a ng-click="suppress_curent_card(gamer)" class="dropdown-item">
+															Supprimer Carte Courante
+													 </a>
 											    </div>
 											  </div>
 									    </div>

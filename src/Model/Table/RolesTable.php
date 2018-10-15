@@ -9,7 +9,7 @@ use Cake\Validation\Validator;
 /**
  * Roles Model
  *
- * @property |\Cake\ORM\Association\HasMany $RoleContentDynamics
+ * @property |\Cake\ORM\Association\HasMany $RoleContents
  * @property \App\Model\Table\UserAccountsTable|\Cake\ORM\Association\HasMany $UserAccounts
  *
  * @method \App\Model\Entity\Role get($primaryKey, $options = [])
@@ -41,7 +41,7 @@ class RolesTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->hasMany('RoleContentDynamics', [
+        $this->hasMany('RoleContents', [
             'foreignKey' => 'role_id'
         ]);
         $this->hasMany('UserAccounts', [

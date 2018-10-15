@@ -16,6 +16,8 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\Network\Exception;
+use \Exception as MainException;
 
 /**
  * Application Controller
@@ -56,13 +58,26 @@ class AppController extends Controller
                         'finder' => 'auth'
                     ]
                 ],
-                // 'authorize' => 'Controller'
+                'authorize' => 'Controller'
         ]);
-        /*
+        /*          * see https://book.cakephp.org/3.0/en/controllers/components/security.html
+
          * Enable the following components for recommended CakePHP security settings.
-         * see https://book.cakephp.org/3.0/en/controllers/components/security.html
          */
         //$this->loadComponent('Security');
         //$this->loadComponent('Csrf');
     }
+
+    public function isAuthorized($user = null){
+        if($user){
+            foreach ($user['role']['role_contents'] as $value) {
+                if($this->request['_matchedRoute'] === $value['content_action']){
+                    throw new Exception\ForbiddenException(__('forbidden'));
+                }
+            }
+            return true;
+        }
+
+
+    } 
 }

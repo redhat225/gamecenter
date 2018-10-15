@@ -5,6 +5,13 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Event\Event;
+use ArrayObject;
+use Cake\Utility\Text;
+use Cake\Auth\DefaultPasswordHasher;
+use Cake\Filesystem\File;
+use Cake\Network\Exception;
+use Cake\ORM\TableRegistry;
 
 /**
  * GamerCards Model
@@ -80,6 +87,23 @@ class GamerCardsTable extends Table
 
         return $validator;
     }
+
+  public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options){
+        if(isset($data['action'])){
+            switch($data['action']){
+                case 'suppress-current-card':
+                    $GamerCards = TableRegistry::get('GamerCards');
+                    $gamer_card_count = $GamerCards->find()->count();
+                    $format_date = new \DateTime('NOW');
+                    $formatted_date = $format_date->format('Y');
+                    $data['gamer_id'] = $data['id'];
+                    $data['card_identity'] = 'GC-'.$format_date->format('mY').'-'.($gamer_card_count+1);
+                    $data['created_by'] = $data['created_by'];
+                break;
+            }
+        }
+   }
+
 
     /**
      * Returns a rules checker object that will be used for validating

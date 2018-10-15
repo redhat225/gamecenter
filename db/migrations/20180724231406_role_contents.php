@@ -30,10 +30,12 @@ class RoleContents extends AbstractMigration
         $table = $this->table('role_contents',['id'=>false,'primary_key'=>['id']]);
         $table->addColumn('id','uuid')
         ->addColumn('content_alias','string',['limit'=>100])
+        ->addColumn('role_id','uuid')
         ->addColumn('content_action','string',['limit'=>100])
         ->addColumn('content_controller','string',['limit'=>100])
         ->addColumn('created','datetime')
-        ->addColumn('modified','datetime');
+        ->addColumn('modified','datetime')
+        ->addForeignKey('role_id','roles','id',['delete'=>'CASCADE', 'update'=>'CASCADE']);
         $table->create();
     }
 }

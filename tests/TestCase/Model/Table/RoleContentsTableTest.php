@@ -25,7 +25,7 @@ class RoleContentsTableTest extends TestCase
      */
     public $fixtures = [
         'app.role_contents',
-        'app.roles'
+        'app.role_content_dynamics'
     ];
 
     /**
@@ -68,16 +68,6 @@ class RoleContentsTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test buildRules method
-     *
-     * @return void
-     */
-    public function testBuildRules()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

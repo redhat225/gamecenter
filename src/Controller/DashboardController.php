@@ -47,10 +47,61 @@ class DashboardController extends AppController
     }
 
     public function general(){
+        try{
+            $now = new \DateTime('NOW');
+            $formatted_date_day = $now->format('dm');
+            $formatted_date_month = $now->format('m');
+                
+            $general_birthday_today = $this->Gamers->find()->Where(['CONCAT(gamer_day_birth,gamer_month_birth)'=>$formatted_date_day]);
+
+            $general_birthday_monthly = $this->Gamers->find()->autoFields(true)->select(['cust_birth'=>"CONCAT(gamer_day_birth,'-',gamer_month_birth)"])->Where(['gamer_month_birth'=>$formatted_date_month]);
+
+            $general = [
+                    'general_birthday_today' => $general_birthday_today,
+                    'general_birthday_monthly' => $general_birthday_monthly
+                ];
+
+                $this->RequestHandler->renderAs($this,'json');
+                $this->set(compact('general'));
+                $this->set('_serialize',['general']);
+        }catch(MainException $e){
+            throw new Exception\BadRequestException(__('stats exception 1'));
+        }
+
+
+
     }
 
     public function monthly(){
+        try{
+            $now = new \DateTime('NOW');
+            $formatted_date = $now->format('m');
+                
+            $monthly_gamer_count = $this->Gamers->find()->Where(['DATE_FORMAT(created,"%m")' => $formatted_date])->count();
 
+                $monthly_gamer_list = $this->Gamers->find()->Where(['DATE_FORMAT(created,"%m")' => $formatted_date])->contain(['GamerCards'=>function($q){
+                    return $q->order(['created'=>'desc']);
+                },'GamerCards.GamerTransits'=> function($q){
+                    return $q->order(['created'=>'desc']);
+                }]);
+                
+                $monthly_stats = $this->GamerTransits->find()->select(['transit_total' => 'sum(transit_amount)','transit_jetons' => 'sum(transit_coins)','transit_jetons_bonus' => 'sum(transit_bonus)'])
+                ->Where(['DATE_FORMAT(created,"%m")' => $formatted_date])->first()->toArray();
+
+                $monthly = [
+                    'gamer_registered' => $monthly_gamer_count,
+                    'coins_cumulated' => $monthly_stats['transit_jetons'],
+                    'cu_cumulated' => $monthly_stats['transit_total'],
+                    'bonus_gave' => $monthly_stats['transit_jetons_bonus'],
+                    'gamer_registered_list' => $monthly_gamer_list,
+                ];
+
+                $this->RequestHandler->renderAs($this,'json');
+                $this->set(compact('monthly'));
+                $this->set('_serialize',['monthly']);
+        }catch(MainException $e){
+            throw new Exception\BadRequestException(__('stats exception 1'));
+        }
     }
 
     public function today(){

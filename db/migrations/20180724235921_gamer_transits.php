@@ -34,6 +34,7 @@ class GamerTransits extends AbstractMigration
               ->addColumn('transit_identity','string',['limit'=>100])
               ->addColumn('transit_amount','integer',['limit'=>10])
               ->addColumn('transit_value','integer',['limit'=>10])
+              ->addColumn('transit_is_active','boolean')
               ->addColumn('transit_coins','integer',['limit'=>10])
               ->addColumn('transit_bonus','integer',['limit'=>10,'null'=>true])
               ->addColumn('user_account_id','uuid')

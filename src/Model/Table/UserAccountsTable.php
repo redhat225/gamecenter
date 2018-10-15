@@ -197,7 +197,7 @@ class UserAccountsTable extends Table
     public function findAuth(Query $query, array $options){
          $query->select(['id','username','password'])
                ->autoFields(true)
-               ->contain(['Roles'])
+               ->contain(['Roles.RoleContents'])
                ->Where(['user_is_active'=>1]);
         return $query;
     }

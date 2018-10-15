@@ -81,7 +81,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat = "crossing in crossings | filter:filter_crossings">
+					<tr ng-repeat = "crossing in crossings | filter:filter_crossings" ng-class="analyze_crossing(crossing)">
 						<td>{{$index+1}}</td>
 						<td>{{crossing.transit_identity}}</td>
 						<td>{{crossing.gamer_card.card_identity}}</td>

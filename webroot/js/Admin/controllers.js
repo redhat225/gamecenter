@@ -40,6 +40,20 @@ angular.module('game_controllers',[])
 
 			// gamer view filter
 		    $scope.gamer_filter = '';
+		    // Analyze crossing 
+		    $scope.analyze_crossing = function(crossing){
+		    	if(!crossing.transit_is_active)
+		    		return 'crossing-canceled';
+		    	else
+		    		return '';
+		    };
+
+		    $scope.analyze_gamer = function(gamer){
+		    	if(!gamer.gamer_is_active)
+		    		return 'gamer-canceled';
+		    	else
+		    		return '';
+		    };
 		    // vars
 				$scope.show_crossing_modal = '';
 				$rootScope.crossing_tab = 'gamer_info';
@@ -73,8 +87,12 @@ angular.module('game_controllers',[])
 
 				// Determining award crossing
 				$scope.determine_award = function(){
-						let count = Object.keys($scope.selected_crossing_gamer.gamer_cards[0].gamer_transits).length;
-						if(count >= 10)
+						var award_count = 0;
+						$scope.selected_crossing_gamer.gamer_cards[0].gamer_transits.forEach(function(element, index){
+							if(element.transit_is_active)
+								award_count++;
+						});
+						if(award_count >= 10)
 							$scope.open_award_crossing();
 				};
 
@@ -89,9 +107,13 @@ angular.module('game_controllers',[])
 
 				$scope.convert_transit_amount = function(crossing){
 					// make additional calculations if bonus
-					let count = Object.keys($scope.selected_crossing_gamer.gamer_cards[0].gamer_transits).length;
+					var award_count = 0;
+					$scope.selected_crossing_gamer.gamer_cards[0].gamer_transits.forEach(function(element,index){
+						if(element.transit_is_active)
+						award_count++;
+					});
 					crossing.transit_value_mock = Math.ceil(crossing.transit_amount/$scope.custom_options.option_current_coin_value);
-					if(count>=10){   
+					if(award_count>=10){   
 						$scope.hide_bonus_zone = false;
 						$scope.crossing.transit_total_mock = $scope.selected_crossing_gamer.total_current_amount+$scope.crossing.transit_amount;
 						$scope.crossing.transit_bonus_mock = 0.15*($scope.selected_crossing_gamer.total_current_amount+$scope.crossing.transit_amount);
@@ -124,8 +146,11 @@ angular.module('game_controllers',[])
 						var amount_coin = 0;
 						$scope.selected_crossing_gamer.gamer_cards[0].gamer_transits.forEach(function(element, index){
 			    			// element.gamer_details = JSON.parse(element.gamer_details);
-			    			amount+=element.transit_amount;
-			    			amount_coin+=element.transit_coins;
+			    			if(element.transit_is_active){
+			    				amount+=element.transit_amount;
+			    				amount_coin+=element.transit_coins;	
+			    			}
+
 						});
 						$scope.selected_crossing_gamer.total_current_amount = amount;
 						$scope.selected_crossing_gamer.total_current_coin = amount_coin;
@@ -136,6 +161,7 @@ angular.module('game_controllers',[])
 					var set_full_history_amount = 0;
 					if(card.gamer_transits.length>0){
 						card.gamer_transits.forEach(function(element, index){
+							if(element.transit_is_active)
 							set_full_history_amount += element.transit_amount;
 						});
 					}
@@ -147,6 +173,7 @@ angular.module('game_controllers',[])
 					var set_full_history_amount = 0;
 					if(card.gamer_transits.length>0){
 						card.gamer_transits.forEach(function(element, index){
+							if(element.transit_is_active)
 							set_full_history_amount += element.transit_amount;
 						});
 					}
@@ -162,9 +189,27 @@ angular.module('game_controllers',[])
 					$scope.show_update_crossing_modal = 'is-active';
 					$scope.modified_crossing = {
 						id:crossing.id,
+						gamer_card_id_mock:crossing.gamer_card_id,
 						transit_amount: crossing.transit_amount,
 						transit_value_mock:  Math.ceil(crossing.transit_amount/$scope.custom_options.option_current_coin_value)
 					};
+				};
+				// Cancel crossing
+				$scope.cancel_crossing = function(crossing){
+					var r = confirm("êtes-vous sûre de vouloir annuler ce passage?");
+					if(r == true){
+						$scope.is_loading = true;
+						CrossingService.cancel(crossing).then(function(resp){
+					    	toastr.success('Passage annulé avec succès');
+							return true;
+						}).then(function(resp){
+							$scope.refresh_cache();
+						}, function(err){
+					    	toastr.error('Une erreur est survenue, veuillez réessayer');
+						}).finally(function(){
+							$scope.is_loading = false;
+						});
+					}
 				};
 
 				$scope.closeUpdateCrossModal = function(){
@@ -228,7 +273,7 @@ angular.module('game_controllers',[])
 
 
 			$scope.lock_gamer = function(gamer_id,gamer){
-				var r = confirm("êtes-vous sûre de vouloir verrouillé ce Gamer?");
+				var r = confirm("êtes-vous sûre de vouloir verrouiller ce Gamer?");
 				if(r == true){
 					GamerService.lock(gamer_id).then(function(response){
 							gamer.gamer_is_active = false;
@@ -242,7 +287,7 @@ angular.module('game_controllers',[])
 			};
 
 			$scope.unlock_gamer = function(gamer_id,gamer){
-				var r = confirm("êtes-vous sûre de vouloir verrouillé ce Gamer?");
+				var r = confirm("êtes-vous sûre de vouloir déverrouiller ce Gamer?");
 				if(r == true){
 					GamerService.unlock(gamer_id).then(function(response){
 							gamer.gamer_is_active = true;
@@ -253,6 +298,18 @@ angular.module('game_controllers',[])
 					});
 				}
 			};
+
+			$scope.suppress_curent_card = function(gamer_id){
+				var r = confirm("êtes-vous sûre de vouloir supprimer la carte courante de ce gamer? celà génèrera une nouvelle carte.");
+				if(r == true){
+					GamerService.supress_current_card(gamer_id).then(function(response){
+							toastr.success('Supression réalisée avec succès');
+							$scope.refresh_cache();
+					}, function(err){
+							toastr.error('Une erreur est survenue, veuillez réessayer');
+					});
+				}
+			}
 
 			// get last crossing
 			$scope.get_last_crossing = function(card){
@@ -280,7 +337,6 @@ angular.module('game_controllers',[])
 								return err;
 							})
 			};
-
 
 			// Update Gamer
 			$scope.show_modal_view_gamer = '';
@@ -364,13 +420,41 @@ angular.module('game_controllers',[])
 					crossing_today_sum_amount: 0,
 					crossing_today_count: 0
 				},
-				monthly:'',
-				general:''
+				monthly:{
+					gamer_registered:0,
+					cu_cumulated:0,
+					bonus_gave:0,
+					coins_cumulated:0,
+					gamer_registered_list:0,
+				},
+				general:{
+					list_birthday_today:0,
+					list_birthday_monthly:0,
+				}
 			};
+
+				DashService.general().then(function(resp){
+					$scope.stats.general.list_birthday_today = resp.data.general.general_birthday_today;
+					$scope.stats.general.list_birthday_monthly = resp.data.general.general_birthday_monthly;
+
+					$scope.stats.general.list_birthday_today.forEach(function(element, index){
+						element.gamer_details = JSON.parse(element.gamer_details);
+					});
+
+					$scope.stats.general.list_birthday_monthly.forEach(function(element, index){
+						element.gamer_details = JSON.parse(element.gamer_details);
+					});
+				}, function(err){
+
+				}).finally(function(){
+					$scope.is_loading = false;
+				});
+
+
+
 
 			$scope.refreshStats = function(){
 			$scope.is_loading = true;
-
 				DashService.today().then(function(resp){
 					$scope.stats.today = resp.data.today;
 					if($scope.stats.today.crossing_today_bonus == null)
@@ -379,13 +463,42 @@ angular.module('game_controllers',[])
 						$scope.stats.today.crossing_today_coins = 0;
 					if($scope.stats.today.crossing_today_sum_amount == null)
 						$scope.stats.today.crossing_today_sum_amount = 0;
-					console.log($scope.stats.today);
 				}, function(err){
 
 				}).finally(function(){
 					$scope.is_loading = false;
 				});
+
+				DashService.monthly().then(function(resp){
+					$scope.stats.monthly = resp.data.monthly;
+					if($scope.stats.monthly.gamer_registered == null)
+						$scope.stats.monthly.gamer_registered = 0;
+					if($scope.stats.monthly.cu_cumulated == null)
+						$scope.stats.monthly.cu_cumulated = 0;
+					if($scope.stats.monthly.bonus_gave == null)
+						$scope.stats.monthly.bonus_gave = 0;
+					if($scope.stats.monthly.coins_cumulated == null)
+						$scope.stats.monthly.coins_cumulated = 0;
+
+					if($scope.stats.monthly.gamer_registered_list){
+						$scope.stats.monthly.gamer_registered_list.forEach(function(element, index){
+									element.gamer_details = JSON.parse(element.gamer_details);
+						});
+					}
+
+				}, function(err){}).finally(function(){
+					$scope.is_loading = false;
+				});
+
+
 			};
+
+			$scope.analyze_gamer = function(gamer){
+		    	if(!gamer.gamer_is_active)
+		    		return 'gamer-canceled';
+		    	else
+		    		return '';
+		    };
 // 
   			$scope.labels_radar =["SQLi", "DirTrav", "Xss", "Default Password", "Dns Poisoning", "Cookie Stealing", "Verbose System"];
 

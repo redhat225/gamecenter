@@ -15,7 +15,7 @@ angular.module('game_services',[])
 			return $http.post('/gamers/create',{gamer:gamer}).then(function(resp){
 				return resp;
 			}, function(err){
-				return $q.rekect(err);
+				return $q.reject(err);
 			})
 		},
 		all:function(){
@@ -69,6 +69,13 @@ angular.module('game_services',[])
 		},
 		RefreshCache: function(){
 			return $http.post('/gamers/refresh-cache').then(function(response){
+				return response;
+			}, function(err){
+				return $q.reject(err);
+			})
+		},
+		supress_current_card:function(gamer){
+			return $http.post('/gamers/suppress-current-card',{gamer:gamer}).then(function(response){
 				return response;
 			}, function(err){
 				return $q.reject(err);
@@ -160,6 +167,13 @@ angular.module('game_services',[])
 			}, function(err){
 				return $q.reject(err);
 			});		
+		},
+		cancel: function(crossing){
+			return $http.post('/crossings/cancel',{crossing:crossing}).then(function(resp){
+				return resp;
+			}, function(err){
+				return $q.reject(err);
+			});
 		}
 	}
 }]).factory('OptionService',['$http','$q','Upload', function($http, $q, Upload){
@@ -230,8 +244,8 @@ angular.module('game_services',[])
 					return $q.reject(err);
 				});
 			},
-			monthly: function(raffle){
-				return $http.post('/dashboard/monthly',raffle).then(function(resp){
+			monthly: function(){
+				return $http.get('/dashboard/monthly').then(function(resp){
 					return resp;
 				}, function(err){
 					return $q.reject(err);

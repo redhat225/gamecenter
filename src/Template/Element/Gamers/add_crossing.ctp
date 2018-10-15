@@ -1,5 +1,4 @@
 <style>
-
 	.modal-hover-tabs li:not(.is-active){
 		background: #110e39 !important;
 		transition-duration: 300ms;
@@ -14,6 +13,11 @@
 	.modal-hover-tabs li.is-active a{
 		color: #fff !important;
 		background: #ec008c !important;
+	}
+
+	.crossing-canceled{
+		color:#fff !important;
+		background: grey !important;
 	}
 </style>
 
@@ -214,7 +218,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat = "crossing in selected_crossing_gamer.gamer_cards[0].gamer_transits">
+					<tr ng-repeat = "crossing in selected_crossing_gamer.gamer_cards[0].gamer_transits" ng-class="analyze_crossing(crossing)">
 						<td>{{$index+1}}</td>
 						<td>{{crossing.transit_identity}}</td>
 						<td>{{crossing.created | date:'dd/MM/yyyy HH:mm'}}</td>
@@ -236,6 +240,9 @@
 											    <div class="dropdown-content gamecenter-blue-b">
 													 <a ng-click="update_value(crossing)" class="dropdown-item button is-none-border is-outlined is-gamecenter-pink">
 											            	Modifier Valeur
+													 </a>
+													 <a ng-if="crossing.transit_is_active" ng-click="cancel_crossing(crossing)" class="dropdown-item button is-none-border is-outlined is-gamecenter-pink">
+											            	Annuler Passage
 													 </a>
 											    </div>
 											  </div>
@@ -274,7 +281,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat = "crossing in card.gamer_transits">
+						<tr ng-repeat="crossing in card.gamer_transits" ng-class="analyze_crossing(crossing)">
 							<td>{{$index+1}}</td>
 							<td>{{crossing.transit_identity}}</td>
 							<td>{{crossing.created | date:'dd/MM/yyyy HH:mm'}}</td>

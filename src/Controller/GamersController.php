@@ -39,6 +39,7 @@ class GamersController extends AppController
     public function initialize(){
         parent::initialize();
         $this->loadModel('Gamers');
+        $this->loadModel('GamerCards');
     }
 
     public function beforeFilter(Event $event){
@@ -84,6 +85,41 @@ class GamersController extends AppController
             }
         }
     }
+
+    public function suppressCurrentCard(){
+        if($this->request->is('ajax')){
+            if($this->request->is('post')){
+                try{
+                    $gamer = $this->request->data['gamer'];
+                    $gamer['action'] = 'suppress-current-card';
+                    $account_uuid = $this->request->session()->read('Auth.User.id');
+                    $gamer['created_by'] = $account_uuid;
+                    unset($gamer['created']);
+                    unset($gamer['modified']);
+                    $gamer_card = $this->GamerCards->newEntity($gamer);
+                    if(!$gamer_card->errors()){
+                        if($this->GamerCards->save($gamer_card)){
+                            if($this->updateCache()){
+                                $response = ['message' => 'ok'];
+                                $this->RequestHandler->renderAs($this, 'json');
+                                $this->set(compact('response'));
+                                $this->set('_serialize',['response']); 
+                            }else
+                              throw new Exception\BadRequestException(__('cache create exception'));
+                        }else{
+                          throw new Exception\BadRequestException(__('bad request create 3'));
+                        }
+                    }else
+                     throw new Exception\BadRequestException(__('bad request create 2'));
+                }catch(MainException $e){
+                  throw new Exception\BadRequestException(__('bad request create 1'));
+                }
+
+
+            }
+        }
+    }
+
 
     public function raffles(){
 

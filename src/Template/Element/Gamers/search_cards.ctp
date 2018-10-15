@@ -1,4 +1,9 @@
-
+<style>
+    .gamer-canceled{
+    color: #fff !important;
+    background: grey !important;
+  }
+</style>
             <div class="field has-addons has-addons-right">
                   <div class="dropdown is-hoverable" style="display: block !important;">
                     <div class="dropdown-trigger">
@@ -8,7 +13,7 @@
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu" role="menu" style="width: 140%; max-height: 300px;overflow-y: auto; overflow-x: hidden;">
                       <div class="dropdown-content gamecenter-blue-b" >
-                        <a  href="#" ng-repeat="gamer in gamers | filter: gamer_filter" ng-click="set_crossing_gamer(gamer, $index)" class="dropdown-item search button is-outlined is-none-border is-gamecenter-pink">
+                        <a  href="#" ng-repeat="gamer in gamers | filter: gamer_filter" ng-click="set_crossing_gamer(gamer, $index)" class="dropdown-item search button is-outlined is-none-border is-gamecenter-pink" ng-class="analyze_gamer(gamer)">
                           <span class="has-text-weigth-semibold">{{gamer.gamer_cards[0].card_identity}} - {{gamer.gamer_fullname}}</span>
                         </a>
                       </div>

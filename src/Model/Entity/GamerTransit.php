@@ -42,6 +42,7 @@ class GamerTransit extends Entity
         'transit_coins' => true,
         'transit_bonus' => true,
         'user_account_id' => true,
+        'transit_is_active' => true,
         'gamer_card_id' => true,
         'user_account' => true,
         'gamer_card' => true,
