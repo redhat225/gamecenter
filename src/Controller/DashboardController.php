@@ -86,7 +86,7 @@ class DashboardController extends AppController
                 }]);
                 
                 $monthly_stats = $this->GamerTransits->find()->select(['transit_total' => 'sum(transit_amount)','transit_jetons' => 'sum(transit_coins)','transit_jetons_bonus' => 'sum(transit_bonus)'])
-                ->Where(['DATE_FORMAT(created,"%m")' => $formatted_date])->first()->toArray();
+                ->Where(['DATE_FORMAT(created,"%m")' => $formatted_date,'transit_is_active'=>1])->first()->toArray();
 
                 $monthly = [
                     'gamer_registered' => $monthly_gamer_count,
@@ -109,10 +109,10 @@ class DashboardController extends AppController
                 $now = new \DateTime('NOW');
                 $formatted_date = $now->format('dm');
                 
-                $crossing_today_count = $this->GamerTransits->find()->Where(['DATE_FORMAT(created,"%d%m")' => $formatted_date])->count();
+                $crossing_today_count = $this->GamerTransits->find()->Where(['DATE_FORMAT(created,"%d%m")' => $formatted_date,'transit_is_active'=>1])->count();
                 
                 $crossing_today_stats = $this->GamerTransits->find()->select(['transit_total' => 'sum(transit_amount)','transit_jetons' => 'sum(transit_coins)','transit_jetons_bonus' => 'sum(transit_bonus)'])
-                ->Where(['DATE_FORMAT(created,"%d%m")' => $formatted_date])->first()->toArray();
+                ->Where(['DATE_FORMAT(created,"%d%m")' => $formatted_date,'transit_is_active'=>1])->first()->toArray();
 
                 $today = [
                     'crossing_today_count' => $crossing_today_count,
